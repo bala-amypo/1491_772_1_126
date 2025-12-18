@@ -18,24 +18,20 @@ public class VisitRecord {
 
     private String channel;
 
-    public VisitRecord() {}
-
-    public VisitRecord(Long id, CustomerProfile customer, LocalDate visitDate, String channel) {
-        this.id = id;
-        this.customer = customer;
-        this.visitDate = visitDate;
-        this.channel = channel;
+    @PrePersist
+    public void validateChannel() {
+        if (!channel.equals("STORE") && !channel.equals("APP") && !channel.equals("WEB")) {
+            throw new IllegalArgumentException("Valid channels: STORE, APP, WEB");
+        }
     }
 
+    // Getters and Setters
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }
-
     public CustomerProfile getCustomer() { return customer; }
     public void setCustomer(CustomerProfile customer) { this.customer = customer; }
-
     public LocalDate getVisitDate() { return visitDate; }
     public void setVisitDate(LocalDate visitDate) { this.visitDate = visitDate; }
-
     public String getChannel() { return channel; }
     public void setChannel(String channel) { this.channel = channel; }
 }
