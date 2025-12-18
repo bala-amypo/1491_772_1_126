@@ -1,8 +1,12 @@
 package com.example.demo.controller;
 
-import com.example.demo.entity.AuthRequest;
-import com.example.demo.service.AuthService;
+// Correct imports
+import com.example.demo.dto.AuthRequest;  // from dto package
+import com.example.demo.dto.AuthResponse; // from dto package
+import com.example.demo.service.AuthService; // from service package
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -12,8 +16,13 @@ public class AuthController {
     @Autowired
     private AuthService authService;
 
+    @PostMapping("/register")
+    public ResponseEntity<AuthResponse> register(@RequestBody AuthRequest request) {
+        return ResponseEntity.ok(authService.register(request));
+    }
+
     @PostMapping("/login")
-    public String login(@RequestBody AuthRequest request) {
-        return authService.generateToken(request.getUsername(), request.getPassword());
+    public ResponseEntity<AuthResponse> login(@RequestBody AuthRequest request) {
+        return ResponseEntity.ok(authService.login(request));
     }
 }
