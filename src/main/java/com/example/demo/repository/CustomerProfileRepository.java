@@ -1,8 +1,8 @@
 package com.example.demo.repository;
 
-import org.springframework.data.jpa.repository.JpaRepository;
 import com.example.demo.entity.CustomerProfile;
+import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface CustomerProfileRepository
-        extends JpaRepository<CustomerProfile, Long> {
+public interface CustomerProfileRepository extends JpaRepository<CustomerProfile, Long> {
+    CustomerProfile findByCustomerId(String customerId);
 }

@@ -5,34 +5,28 @@ import com.example.demo.service.PurchaseRecordService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/api/purchases")
 public class PurchaseRecordController {
 
-    private final PurchaseRecordService purchaseRecordService;
-
     @Autowired
-    public PurchaseRecordController(PurchaseRecordService purchaseRecordService) {
-        this.purchaseRecordService = purchaseRecordService;
-    }
+    private PurchaseRecordService service;
 
     @PostMapping
-    public void recordPurchase(@RequestBody PurchaseRecord purchase) {
-        purchaseRecordService.recordPurchase(purchase);
+    public PurchaseRecord createPurchase(@RequestBody PurchaseRecord purchase) {
+        service.recordPurchase(purchase);
+        return purchase;
     }
 
-    @GetMapping("/customer/{customerId}")
-    public Iterable<PurchaseRecord> getPurchasesByCustomer(@PathVariable Long customerId) {
-        return purchaseRecordService.getPurchasesByCustomer(customerId);
-    }
-
-    @GetMapping("/{id}")
-    public PurchaseRecord getPurchaseById(@PathVariable Long id) {
-        return purchaseRecordService.getPurchasesById(id);
+    @GetMapping("/{customerId}")
+    public List<PurchaseRecord> getPurchasesByCustomer(@PathVariable Long customerId) {
+        return service.getPurchasesByCustomer(customerId);
     }
 
     @GetMapping
-    public Iterable<PurchaseRecord> getAllPurchases() {
-        return purchaseRecordService.getAllPurchases();
+    public List<PurchaseRecord> getAllPurchases() {
+        return service.getAllPurchases();
     }
 }

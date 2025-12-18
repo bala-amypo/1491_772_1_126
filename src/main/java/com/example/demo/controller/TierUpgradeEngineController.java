@@ -1,38 +1,45 @@
 package com.example.demo.controller;
 
-import com.example.demo.service.TierUpgradeEngineService;
-import com.example.demo.entity.TierHistoryRecord;
+import com.example.demo.entity.CustomerProfile;
+import com.example.demo.entity.PurchaseRecord;
+import com.example.demo.entity.TierUpgradeRule;
+import com.example.demo.service.CustomerProfileService;
+import com.example.demo.service.PurchaseRecordService;
+import com.example.demo.service.TierUpgradeRuleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
-@RequestMapping("/api/tier-engine")
+@RequestMapping("/api/upgrade")
 public class TierUpgradeEngineController {
 
-    private final TierUpgradeEngineService tierUpgradeEngineService;
+    @Autowired
+    private CustomerProfileService customerService;
 
     @Autowired
-    public TierUpgradeEngineController(TierUpgradeEngineService tierUpgradeEngineService) {
-        this.tierUpgradeEngineService = tierUpgradeEngineService;
-    }
+    private PurchaseRecordService purchaseService;
 
-    @PostMapping("/evaluate/{customerId}")
-    public void evaluateAndUpgradeTier(@PathVariable Long customerId) {
-        tierUpgradeEngineService.evaluateAndUpgradeTier(customerId);
-    }
+    @Autowired
+    private TierUpgradeRuleService ruleService;
 
-    @GetMapping("/history/{customerId}")
-    public Iterable<TierHistoryRecord> getTierHistoryByCustomer(@PathVariable Long customerId) {
-        return tierUpgradeEngineService.getHistoryByCustomer(customerId);
-    }
+    @PostMapping("/{customerId}")
+    public String upgradeTier(@PathVariable Long customerId) {
+        CustomerProfile customer = customerService.getCustomerById(customerId);
+        List<PurchaseRecord> purchases = purchaseService.getPurchasesByCustomer(customerId);
+        double totalSpent = purchases.stream().mapToDouble(PurchaseRecord::getAmount).sum();
 
-    @GetMapping("/history/{id}")
-    public TierHistoryRecord getTierHistoryById(@PathVariable Long id) {
-        return tierUpgradeEngineService.getTierHistoryById(id);
-    }
+        List<TierUpgradeRule> rules = ruleService.getAllRules();
+        String oldTier = customer.getCurrentTier();
 
-    @GetMapping("/history")
-    public Iterable<TierHistoryRecord> getAllHistory() {
-        return tierUpgradeEngineService.getAllHistory();
+        for (TierUpgradeRule rule : rules) {
+            if (rule.getFromTier().equals(oldTier)
+                    && totalSpent >= rule.getMinSpend()) {
+                customerService.updateTier(customerId, rule.getToTier());
+                return "Tier upgraded from " + oldTier + " to " + rule.getToTier();
+            }
+        }
+        return "No tier upgrade available";
     }
 }

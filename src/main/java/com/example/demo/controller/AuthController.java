@@ -9,20 +9,11 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/api/auth")
 public class AuthController {
 
-    private final AuthService authService;
-
     @Autowired
-    public AuthController(AuthService authService) {
-        this.authService = authService;
-    }
-
-    @PostMapping("/register")
-    public void register(@RequestBody AuthRequest request) {
-        authService.register(request);
-    }
+    private AuthService authService;
 
     @PostMapping("/login")
     public String login(@RequestBody AuthRequest request) {
-        return authService.login(request);
+        return authService.generateToken(request.getUsername(), request.getPassword());
     }
 }
