@@ -27,17 +27,6 @@ public class CustomerProfile {
 
     private LocalDateTime createdAt;
 
-    @PrePersist
-    public void setDefaults() {
-        this.createdAt = LocalDateTime.now();
-        if (this.currentTier == null) {
-            this.currentTier = "BRONZE";
-        }
-        if (this.active == null) {
-            this.active = true;
-        }
-    }
-
     public CustomerProfile() {
     }
 
