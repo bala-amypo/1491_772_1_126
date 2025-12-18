@@ -1,10 +1,8 @@
 package com.example.demo.controller;
 
-// Correct imports
-import com.example.demo.dto.AuthRequest;  // from dto package
-import com.example.demo.dto.AuthResponse; // from dto package
-import com.example.demo.service.AuthService; // from service package
-
+import com.example.demo.dto.AuthRequest;
+import com.example.demo.dto.AuthResponse;
+import com.example.demo.service.AuthService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
