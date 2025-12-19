@@ -12,16 +12,16 @@ import com.example.demo.service.CustomerProfileService;
 @Service
 public class CustomerProfileServiceImpl implements CustomerProfileService {
 
-    private final CustomerProfileRepository customerProfileRepository;
+    private final CustomerProfileRepository repository;
 
-    public CustomerProfileServiceImpl(CustomerProfileRepository customerProfileRepository) {
-        this.customerProfileRepository = customerProfileRepository;
+    public CustomerProfileServiceImpl(CustomerProfileRepository repository) {
+        this.repository = repository;
     }
 
     @Override
     public CustomerProfile createCustomer(CustomerProfile customer) {
 
-        if (customerProfileRepository.findByCustomerId(customer.getCustomerId()).isPresent()) {
+        if (repository.findByCustomerId(customer.getCustomerId()).isPresent()) {
             throw new IllegalArgumentException("Customer ID already exists");
         }
 
@@ -29,37 +29,37 @@ public class CustomerProfileServiceImpl implements CustomerProfileService {
             customer.setCurrentTier("BRONZE");
         }
 
-        return customerProfileRepository.save(customer);
+        return repository.save(customer);
     }
 
     @Override
     public CustomerProfile getCustomerById(Long id) {
-        return customerProfileRepository.findById(id)
+        return repository.findById(id)
                 .orElseThrow(() -> new NoSuchElementException("Customer not found"));
     }
 
     @Override
     public CustomerProfile findByCustomerId(String customerId) {
-        return customerProfileRepository.findByCustomerId(customerId)
+        return repository.findByCustomerId(customerId)
                 .orElseThrow(() -> new NoSuchElementException("Customer not found"));
     }
 
     @Override
     public List<CustomerProfile> getAllCustomers() {
-        return customerProfileRepository.findAll();
+        return repository.findAll();
     }
 
     @Override
     public CustomerProfile updateTier(Long id, String newTier) {
         CustomerProfile customer = getCustomerById(id);
         customer.setCurrentTier(newTier);
-        return customerProfileRepository.save(customer);
+        return repository.save(customer);
     }
 
     @Override
     public CustomerProfile updateStatus(Long id, boolean active) {
         CustomerProfile customer = getCustomerById(id);
         customer.setActive(active);
-        return customerProfileRepository.save(customer);
+        return repository.save(customer);
     }
 }
