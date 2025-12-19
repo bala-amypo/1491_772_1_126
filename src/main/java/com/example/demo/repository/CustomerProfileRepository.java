@@ -1,7 +1,15 @@
 package com.example.demo.repository;
 
 import com.example.demo.entity.CustomerProfile;
-import org.springframework.data.jpa.repository.JpaRepository;
+import java.util.List;
 
-public interface CustomerProfileRepository extends JpaRepository<CustomerProfile, Long> {
+public interface CustomerProfileRepository {
+
+    CustomerProfile save(CustomerProfile customer);
+
+    CustomerProfile findById(Long id);
+
+    CustomerProfile findByCustomerId(String customerId);
+
+    List<CustomerProfile> findAll();
 }
