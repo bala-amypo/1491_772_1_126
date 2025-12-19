@@ -1,12 +1,12 @@
-package com.example.demo.repository;
+// package com.example.demo.repository;
 
-import com.example.demo.entity.VisitRecord;
-import org.springframework.data.jpa.repository.JpaRepository;
+// import com.example.demo.entity.VisitRecord;
+// import org.springframework.data.jpa.repository.JpaRepository;
 
-import java.util.List;
+// import java.util.List;
 
-public interface VisitRecordRepository
-        extends JpaRepository<VisitRecord, Long> {
+// public interface VisitRecordRepository
+//         extends JpaRepository<VisitRecord, Long> {
 
-    List<VisitRecord> findByCustomerId(Long customerId);
-}
+//     List<VisitRecord> findByCustomerId(Long customerId);
+// }

@@ -1,16 +1,16 @@
-package com.example.demo.service;
+// package com.example.demo.service;
 
-import com.example.demo.entity.VisitRecord;
+// import com.example.demo.entity.VisitRecord;
 
-import java.util.List;
+// import java.util.List;
 
-public interface VisitRecordService {
+// public interface VisitRecordService {
 
-    VisitRecord recordVisit(VisitRecord visit);
+//     VisitRecord recordVisit(VisitRecord visit);
 
-    List<VisitRecord> getVisitsByCustomer(Long id);
+//     List<VisitRecord> getVisitsByCustomer(Long id);
 
-    List<VisitRecord> getAllVisits();
+//     List<VisitRecord> getAllVisits();
 
-    VisitRecord getVisitById(Long id);
-}
+//     VisitRecord getVisitById(Long id);
+// }

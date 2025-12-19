@@ -1,40 +1,40 @@
-package com.example.demo.controller;
+// package com.example.demo.controller;
 
-import com.example.demo.entity.VisitRecord;
-import com.example.demo.service.VisitRecordService;
-import io.swagger.v3.oas.annotations.tags.Tag;
-import org.springframework.web.bind.annotation.*;
+// import com.example.demo.entity.VisitRecord;
+// import com.example.demo.service.VisitRecordService;
+// import io.swagger.v3.oas.annotations.tags.Tag;
+// import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
+// import java.util.List;
 
-@RestController
-@RequestMapping("/api/visits")
-@Tag(name = "Visit Records")
-public class VisitRecordController {
+// @RestController
+// @RequestMapping("/api/visits")
+// @Tag(name = "Visit Records")
+// public class VisitRecordController {
 
-    private final VisitRecordService service;
+//     private final VisitRecordService service;
 
-    public VisitRecordController(VisitRecordService service) {
-        this.service = service;
-    }
+//     public VisitRecordController(VisitRecordService service) {
+//         this.service = service;
+//     }
 
-    @PostMapping
-    public VisitRecord record(@RequestBody VisitRecord visit) {
-        return service.recordVisit(visit);
-    }
+//     @PostMapping
+//     public VisitRecord record(@RequestBody VisitRecord visit) {
+//         return service.recordVisit(visit);
+//     }
 
-    @GetMapping("/customer/{customerId}")
-    public List<VisitRecord> getByCustomer(@PathVariable Long customerId) {
-        return service.getVisitsByCustomer(customerId);
-    }
+//     @GetMapping("/customer/{customerId}")
+//     public List<VisitRecord> getByCustomer(@PathVariable Long customerId) {
+//         return service.getVisitsByCustomer(customerId);
+//     }
 
-    @GetMapping("/{id}")
-    public VisitRecord getById(@PathVariable Long id) {
-        return service.getVisitById(id);
-    }
+//     @GetMapping("/{id}")
+//     public VisitRecord getById(@PathVariable Long id) {
+//         return service.getVisitById(id);
+//     }
 
-    @GetMapping
-    public List<VisitRecord> getAll() {
-        return service.getAllVisits();
-    }
-}
+//     @GetMapping
+//     public List<VisitRecord> getAll() {
+//         return service.getAllVisits();
+//     }
+// }
