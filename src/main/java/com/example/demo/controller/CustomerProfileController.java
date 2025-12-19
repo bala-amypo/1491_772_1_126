@@ -12,7 +12,6 @@ public class CustomerProfileController {
 
     private final CustomerProfileService service;
 
-    // Constructor injection
     public CustomerProfileController(CustomerProfileService service) {
         this.service = service;
     }

@@ -36,11 +36,7 @@ public class CustomerProfile {
 
     @Column(nullable = false, updatable = false)
     private LocalDateTime createdAt;
-
-    // ---------------- Constructors ----------------
-
     public CustomerProfile() {
-        // Default constructor
     }
 
     public CustomerProfile(String customerId, String fullName, String email, String phone,
@@ -53,8 +49,6 @@ public class CustomerProfile {
         this.active = (active != null) ? active : true;
         this.createdAt = createdAt;
     }
-
-    // ---------------- Getters & Setters ----------------
 
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }
