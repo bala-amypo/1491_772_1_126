@@ -10,7 +10,7 @@ import com.example.demo.entity.CustomerProfile;
 import com.example.demo.service.CustomerService;
 
 @RestController
-public class CustomerController {
+public class CustomerProfileController {
 
     @Autowired
     CustomerService cs;

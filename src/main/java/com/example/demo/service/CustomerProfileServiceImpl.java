@@ -10,7 +10,7 @@ import com.example.demo.entity.CustomerProfile;
 import com.example.demo.repository.CustomerRepo;
 
 @Service
-public class CustomerServiceImpl implements CustomerService {
+public class CustomerProfileServiceImpl implements CustomerProfileService {
 
     @Autowired
     CustomerRepo repo;
