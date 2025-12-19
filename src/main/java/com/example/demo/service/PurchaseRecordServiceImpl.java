@@ -3,7 +3,6 @@ package com.example.demo.service;
 import com.example.demo.entity.PurchaseRecord;
 import com.example.demo.repository.PurchaseRecordRepository;
 import org.springframework.stereotype.Service;
-
 import java.util.List;
 
 @Service
@@ -18,11 +17,6 @@ public class PurchaseRecordServiceImpl implements PurchaseRecordService {
     @Override
     public PurchaseRecord recordPurchase(PurchaseRecord purchase) {
         return repository.save(purchase);
-    }
-
-    @Override
-    public PurchaseRecord getPurchaseById(Long id) {
-        return repository.findById(id).orElse(null);
     }
 
     @Override
