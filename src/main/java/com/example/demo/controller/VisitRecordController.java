@@ -2,6 +2,8 @@ package com.example.demo.controller;
 
 import java.util.List;
 
+import jakarta.validation.Valid;
+
 import org.springframework.web.bind.annotation.*;
 
 import com.example.demo.entity.VisitRecord;
@@ -18,13 +20,13 @@ public class VisitRecordController {
     }
 
     @PostMapping
-    public VisitRecord create(@RequestBody VisitRecord visit) {
+    public VisitRecord create(@Valid @RequestBody VisitRecord visit) {
         return service.recordVisit(visit);
     }
 
-    @GetMapping
-    public List<VisitRecord> getAll() {
-        return service.getAllVisits();
+    @GetMapping("/customer/{customerId}")
+    public List<VisitRecord> getByCustomer(@PathVariable Long customerId) {
+        return service.getVisitsByCustomer(customerId);
     }
 
     @GetMapping("/{id}")
@@ -32,9 +34,8 @@ public class VisitRecordController {
         return service.getVisitById(id);
     }
 
-    @GetMapping("/customer/{customerId}")
-    public List<VisitRecord> byCustomer(
-            @PathVariable Long customerId) {
-        return service.getVisitsByCustomer(customerId);
+    @GetMapping
+    public List<VisitRecord> getAll() {
+        return service.getAllVisits();
     }
 }

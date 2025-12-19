@@ -1,6 +1,8 @@
 package com.example.demo.entity;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
+
 import java.time.LocalDate;
 
 @Entity
@@ -11,27 +13,36 @@ public class VisitRecord {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @NotNull
     private Long customerId;
 
+    @NotNull
     private LocalDate visitDate;
 
+    @NotNull
     private String channel;
 
-    public VisitRecord() {}
+    public VisitRecord() {
+    }
 
     public VisitRecord(Long customerId, LocalDate visitDate, String channel) {
-        if (!channel.equals("STORE") &&
-            !channel.equals("APP") &&
-            !channel.equals("WEB")) {
-            throw new IllegalArgumentException("Invalid channel");
-        }
         this.customerId = customerId;
         this.visitDate = visitDate;
         this.channel = channel;
     }
 
+    @PrePersist
+    public void validateChannel() {
+        if (!channel.equals("STORE") &&
+            !channel.equals("APP") &&
+            !channel.equals("WEB")) {
+            throw new IllegalArgumentException("Invalid channel");
+        }
+    }
+
     // getters & setters
     public Long getId() { return id; }
+    public void setId(Long id) { this.id = id; }
 
     public Long getCustomerId() { return customerId; }
     public void setCustomerId(Long customerId) { this.customerId = customerId; }
@@ -40,12 +51,5 @@ public class VisitRecord {
     public void setVisitDate(LocalDate visitDate) { this.visitDate = visitDate; }
 
     public String getChannel() { return channel; }
-    public void setChannel(String channel) {
-        if (!channel.equals("STORE") &&
-            !channel.equals("APP") &&
-            !channel.equals("WEB")) {
-            throw new IllegalArgumentException("Invalid channel");
-        }
-        this.channel = channel;
-    }
+    public void setChannel(String channel) { this.channel = channel; }
 }
