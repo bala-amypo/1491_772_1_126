@@ -13,38 +13,38 @@ import com.example.demo.service.CustomerProfileService;
 @RequestMapping("/api/customers")
 public class CustomerProfileController {
 
-    private final CustomerProfileService customerProfileService;
+    private final CustomerProfileService service;
 
-    public CustomerProfileController(CustomerProfileService customerProfileService) {
-        this.customerProfileService = customerProfileService;
+    public CustomerProfileController(CustomerProfileService service) {
+        this.service = service;
     }
 
     @PostMapping
     public CustomerProfile create(@Valid @RequestBody CustomerProfile customer) {
-        return customerProfileService.createCustomer(customer);
+        return service.createCustomer(customer);
     }
 
     @GetMapping("/{id}")
     public CustomerProfile getById(@PathVariable Long id) {
-        return customerProfileService.getCustomerById(id);
+        return service.getCustomerById(id);
     }
 
     @GetMapping
     public List<CustomerProfile> getAll() {
-        return customerProfileService.getAllCustomers();
+        return service.getAllCustomers();
     }
 
     @PutMapping("/{id}/tier")
     public CustomerProfile updateTier(
             @PathVariable Long id,
             @RequestParam String tier) {
-        return customerProfileService.updateTier(id, tier);
+        return service.updateTier(id, tier);
     }
 
     @PutMapping("/{id}/status")
     public CustomerProfile updateStatus(
             @PathVariable Long id,
             @RequestParam boolean active) {
-        return customerProfileService.updateStatus(id, active);
+        return service.updateStatus(id, active);
     }
 }
