@@ -1,50 +1,50 @@
 package com.example.demo.controller;
 
-import com.example.demo.entity.CustomerProfile;
-import com.example.demo.service.CustomerProfileService;
+import java.util.List;
+
+import jakarta.validation.Valid;
+
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
+import com.example.demo.entity.CustomerProfile;
+import com.example.demo.service.CustomerProfileService;
 
 @RestController
 @RequestMapping("/api/customers")
 public class CustomerProfileController {
 
-    private final CustomerProfileService service;
+    private final CustomerProfileService customerProfileService;
 
-    public CustomerProfileController(CustomerProfileService service) {
-        this.service = service;
+    public CustomerProfileController(CustomerProfileService customerProfileService) {
+        this.customerProfileService = customerProfileService;
     }
 
     @PostMapping
-    public CustomerProfile createCustomer(@RequestBody CustomerProfile customer) {
-        return service.createCustomer(customer);
+    public CustomerProfile create(@Valid @RequestBody CustomerProfile customer) {
+        return customerProfileService.createCustomer(customer);
     }
 
     @GetMapping("/{id}")
-    public CustomerProfile getCustomerById(@PathVariable Long id) {
-        return service.getCustomerById(id);
+    public CustomerProfile getById(@PathVariable Long id) {
+        return customerProfileService.getCustomerById(id);
     }
 
     @GetMapping
-    public List<CustomerProfile> getAllCustomers() {
-        return service.getAllCustomers();
+    public List<CustomerProfile> getAll() {
+        return customerProfileService.getAllCustomers();
     }
 
     @PutMapping("/{id}/tier")
-    public CustomerProfile updateTier(@PathVariable Long id,
-                                      @RequestParam String newTier) {
-        return service.updateTier(id, newTier);
+    public CustomerProfile updateTier(
+            @PathVariable Long id,
+            @RequestParam String tier) {
+        return customerProfileService.updateTier(id, tier);
     }
 
     @PutMapping("/{id}/status")
-    public CustomerProfile updateStatus(@PathVariable Long id,
-                                        @RequestParam boolean active) {
-        return service.updateStatus(id, active);
-    }
-
-    @GetMapping("/lookup/{customerId}")
-    public CustomerProfile findByCustomerId(@PathVariable String customerId) {
-        return service.findByCustomerId(customerId);
+    public CustomerProfile updateStatus(
+            @PathVariable Long id,
+            @RequestParam boolean active) {
+        return customerProfileService.updateStatus(id, active);
     }
 }

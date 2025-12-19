@@ -1,7 +1,8 @@
 package com.example.demo.service;
 
-import com.example.demo.entity.CustomerProfile;
 import java.util.List;
+
+import com.example.demo.entity.CustomerProfile;
 
 public interface CustomerProfileService {
 
