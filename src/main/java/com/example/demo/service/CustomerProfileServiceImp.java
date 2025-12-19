@@ -7,17 +7,17 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.example.demo.entity.CustomerProfile;
-import com.example.demo.repository.CustomerProfileRepo;
+import com.example.demo.repository.CustomerRepo;
 
 @Service
-public class CustomerProfileServiceImp implements CustomerProfileService {
+public class CustomerServiceImpl implements CustomerService {
 
     @Autowired
-    private CustomerProfileRepo repo;
+    CustomerRepo repo;
 
     @Override
-    public CustomerProfile insertCustomerProfile(CustomerProfile cp) {
-        return repo.save(cp);
+    public CustomerProfile insertCustomer(CustomerProfile customer) {
+        return repo.save(customer);
     }
 
     @Override
@@ -31,22 +31,7 @@ public class CustomerProfileServiceImp implements CustomerProfileService {
     }
 
     @Override
-    public CustomerProfile updateCustomerProfile(CustomerProfile cp) {
-        return repo.save(cp);
-    }
-
-    @Override
-    public void deleteCustomerProfile(Long id) {
+    public void deleteCustomer(Long id) {
         repo.deleteById(id);
-    }
-
-    @Override
-    public Optional<CustomerProfile> findByEmail(String email) {
-        return repo.findByEmail(email);
-    }
-
-    @Override
-    public Optional<CustomerProfile> findByCustomerId(String customerId) {
-        return repo.findByCustomerId(customerId);
     }
 }

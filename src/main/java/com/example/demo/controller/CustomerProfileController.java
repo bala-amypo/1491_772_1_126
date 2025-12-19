@@ -7,32 +7,37 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import com.example.demo.entity.CustomerProfile;
-import com.example.demo.service.CustomerProfileService;
+import com.example.demo.service.CustomerService;
 
 @RestController
-@RequestMapping("/customer")
-public class CustomerProfileController {
+public class CustomerController {
 
     @Autowired
-    private CustomerProfileService service;
-@PostMapping("/customer")
-public CustomerProfile addCustomer(@RequestBody CustomerProfile cp) {
-    return service.insertCustomerProfile(cp); // matches interface
-}
+    CustomerService cs;
 
-@GetMapping("/customers")
-public List<CustomerProfile> getAllCustomers() {
-    return service.getAll(); // matches interface
-}
+    @PostMapping("/postcustomer")
+    public CustomerProfile postCustomer(@RequestBody CustomerProfile customer) {
+        return cs.insertCustomer(customer);
+    }
 
-@GetMapping("/customer/{id}")
-public CustomerProfile getCustomer(@PathVariable Long id) {
-    return service.getById(id).orElse(null); // matches interface
-}
+    @GetMapping("/getcustomers")
+    public List<CustomerProfile> getAllCustomers() {
+        return cs.getAll();
+    }
 
-@DeleteMapping("/customer/{id}")
-public void deleteCustomer(@PathVariable Long id) {
-    service.deleteCustomerProfile(id); // matches interface
-}
+    @GetMapping("/getcustomer/{id}")
+    public Optional<CustomerProfile> getCustomerById(@PathVariable Long id) {
+        return cs.getById(id);
+    }
 
+    @DeleteMapping("/deletecustomer/{id}")
+    public String deleteCustomer(@PathVariable Long id) {
+        Optional<CustomerProfile> customer = cs.getById(id);
+        if (customer.isPresent()) {
+            cs.deleteCustomer(id);
+            return "Customer deleted successfully";
+        } else {
+            return "Customer ID not found";
+        }
+    }
 }
