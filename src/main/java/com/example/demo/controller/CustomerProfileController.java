@@ -15,34 +15,24 @@ public class CustomerProfileController {
 
     @Autowired
     private CustomerProfileService service;
+@PostMapping("/customer")
+public CustomerProfile addCustomer(@RequestBody CustomerProfile cp) {
+    return service.insertCustomerProfile(cp); // matches interface
+}
 
-    // Create a new customer profile
-    @PostMapping("/create")
-    public CustomerProfile createCustomer(@RequestBody CustomerProfile customer) {
-        return service.insertCustomer(customer);
-    }
+@GetMapping("/customers")
+public List<CustomerProfile> getAllCustomers() {
+    return service.getAll(); // matches interface
+}
 
-    // Get all customer profiles
-    @GetMapping("/all")
-    public List<CustomerProfile> getAllCustomers() {
-        return service.getAllCustomers();
-    }
+@GetMapping("/customer/{id}")
+public CustomerProfile getCustomer(@PathVariable Long id) {
+    return service.getById(id).orElse(null); // matches interface
+}
 
-    // Get a customer profile by ID
-    @GetMapping("/{id}")
-    public Optional<CustomerProfile> getCustomerById(@PathVariable Long id) {
-        return service.getCustomerById(id);
-    }
+@DeleteMapping("/customer/{id}")
+public void deleteCustomer(@PathVariable Long id) {
+    service.deleteCustomerProfile(id); // matches interface
+}
 
-    // Delete a customer profile by ID
-    @DeleteMapping("/{id}")
-    public String deleteCustomer(@PathVariable Long id) {
-        Optional<CustomerProfile> customer = service.getCustomerById(id);
-        if (customer.isPresent()) {
-            service.deleteCustomer(id);
-            return "Successfully deleted";
-        } else {
-            return "Id not found";
-        }
-    }
 }
