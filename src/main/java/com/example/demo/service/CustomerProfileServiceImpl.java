@@ -4,7 +4,6 @@ import com.example.demo.entity.CustomerProfile;
 import com.example.demo.repository.CustomerProfileRepository;
 import com.example.demo.service.CustomerProfileService;
 import org.springframework.stereotype.Service;
-
 import java.util.List;
 import java.util.NoSuchElementException;
 
@@ -13,18 +12,15 @@ public class CustomerProfileServiceImpl implements CustomerProfileService {
 
     private final CustomerProfileRepository repository;
 
-    // Constructor injection
     public CustomerProfileServiceImpl(CustomerProfileRepository repository) {
         this.repository = repository;
     }
 
     @Override
     public CustomerProfile createCustomer(CustomerProfile customer) {
-        // Check for duplicate customerId
         repository.findByCustomerId(customer.getCustomerId())
-                .ifPresent(c -> { throw new IllegalArgumentException("Customer ID already exists"); });
+                  .ifPresent(c -> { throw new IllegalArgumentException("Customer ID already exists"); });
 
-        // Default tier
         if (customer.getCurrentTier() == null) customer.setCurrentTier("BRONZE");
         if (customer.getActive() == null) customer.setActive(true);
 
@@ -34,13 +30,13 @@ public class CustomerProfileServiceImpl implements CustomerProfileService {
     @Override
     public CustomerProfile getCustomerById(Long id) {
         return repository.findById(id)
-                .orElseThrow(() -> new NoSuchElementException("Customer not found"));
+                         .orElseThrow(() -> new NoSuchElementException("Customer not found"));
     }
 
     @Override
     public CustomerProfile findByCustomerId(String customerId) {
         return repository.findByCustomerId(customerId)
-                .orElseThrow(() -> new NoSuchElementException("Customer not found"));
+                         .orElseThrow(() -> new NoSuchElementException("Customer not found"));
     }
 
     @Override

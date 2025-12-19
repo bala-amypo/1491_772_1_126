@@ -1,7 +1,6 @@
 package com.example.demo.entity;
 
 import jakarta.persistence.*;
-import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "customer_profiles",
@@ -29,27 +28,25 @@ public class CustomerProfile {
     private String phone;
 
     @Column(nullable = false)
-    private String currentTier;
+    private String currentTier = "BRONZE";
 
     @Column(nullable = false)
-    private Boolean active;
+    private Boolean active = true;
 
-    @Column(nullable = false, updatable = false)
-    private LocalDateTime createdAt;
-    public CustomerProfile() {
-    }
+    // Constructors
+    public CustomerProfile() {}
 
     public CustomerProfile(String customerId, String fullName, String email, String phone,
-                           String currentTier, Boolean active, LocalDateTime createdAt) {
+                           String currentTier, Boolean active) {
         this.customerId = customerId;
         this.fullName = fullName;
         this.email = email;
         this.phone = phone;
         this.currentTier = (currentTier != null) ? currentTier : "BRONZE";
         this.active = (active != null) ? active : true;
-        this.createdAt = createdAt;
     }
 
+    // Getters and Setters
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }
 
@@ -70,12 +67,4 @@ public class CustomerProfile {
 
     public Boolean getActive() { return active; }
     public void setActive(Boolean active) { this.active = active; }
-
-    public LocalDateTime getCreatedAt() { return createdAt; }
-    @PrePersist
-    protected void onCreate() {
-        this.createdAt = LocalDateTime.now();
-        if (this.currentTier == null) this.currentTier = "BRONZE";
-        if (this.active == null) this.active = true;
-    }
 }
