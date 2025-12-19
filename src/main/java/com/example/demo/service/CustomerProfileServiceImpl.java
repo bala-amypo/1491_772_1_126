@@ -1,37 +1,52 @@
-package com.example.demo.service;
-
-import java.util.List;
-import java.util.Optional;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
+package com.example.demo.service.impl;
 
 import com.example.demo.entity.CustomerProfile;
-import com.example.demo.repository.CustomerRepo;
+import com.example.demo.repository.CustomerProfileRepository;
+import com.example.demo.service.CustomerProfileService;
+import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 public class CustomerProfileServiceImpl implements CustomerProfileService {
 
-    @Autowired
-    CustomerRepo repo;
+    private final List<CustomerProfile> storage = new ArrayList<>();
+    private Long idCounter = 1L;
 
     @Override
-    public CustomerProfile insertCustomer(CustomerProfile customer) {
-        return repo.save(customer);
+    public CustomerProfile createCustomer(CustomerProfile customer) {
+        customer.setId(idCounter++);
+        storage.add(customer);
+        return customer;
     }
 
     @Override
-    public List<CustomerProfile> getAll() {
-        return repo.findAll();
+    public CustomerProfile getCustomerById(Long id) {
+        return storage.stream().filter(c -> c.getId().equals(id)).findFirst().orElse(null);
     }
 
     @Override
-    public Optional<CustomerProfile> getById(Long id) {
-        return repo.findById(id);
+    public CustomerProfile findByCustomerId(String customerId) {
+        return storage.stream().filter(c -> c.getCustomerId().equals(customerId)).findFirst().orElse(null);
     }
 
     @Override
-    public void deleteCustomer(Long id) {
-        repo.deleteById(id);
+    public List<CustomerProfile> getAllCustomers() {
+        return storage;
+    }
+
+    @Override
+    public CustomerProfile updateTier(Long id, String newTier) {
+        CustomerProfile customer = getCustomerById(id);
+        if (customer != null) customer.setCurrentTier(newTier);
+        return customer;
+    }
+
+    @Override
+    public CustomerProfile updateStatus(Long id, boolean active) {
+        CustomerProfile customer = getCustomerById(id);
+        if (customer != null) customer.setActive(active);
+        return customer;
     }
 }

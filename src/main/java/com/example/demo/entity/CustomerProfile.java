@@ -1,39 +1,15 @@
 package com.example.demo.entity;
 
-import jakarta.persistence.*;
-
-@Entity
-@Table(name = "customer_profiles",
-       uniqueConstraints = {
-           @UniqueConstraint(columnNames = "customerId"),
-           @UniqueConstraint(columnNames = "email"),
-           @UniqueConstraint(columnNames = "phone")
-       })
 public class CustomerProfile {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
-    @Column(nullable = false, unique = true)
     private String customerId;
-
-    @Column(nullable = false)
     private String fullName;
-
-    @Column(nullable = false, unique = true)
     private String email;
-
-    @Column(nullable = false, unique = true)
     private String phone;
-
-    @Column(nullable = false)
     private String currentTier = "BRONZE";
-
-    @Column(nullable = false)
     private Boolean active = true;
 
-    // Constructors
     public CustomerProfile() {}
 
     public CustomerProfile(String customerId, String fullName, String email, String phone,
