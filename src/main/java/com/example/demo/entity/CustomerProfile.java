@@ -72,8 +72,6 @@ public class CustomerProfile {
     public void setActive(Boolean active) { this.active = active; }
 
     public LocalDateTime getCreatedAt() { return createdAt; }
-
-    // ---------------- PrePersist Hook ----------------
     @PrePersist
     protected void onCreate() {
         this.createdAt = LocalDateTime.now();
