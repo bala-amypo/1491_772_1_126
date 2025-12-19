@@ -1,17 +1,19 @@
 package com.example.demo.service;
 
-import java.util.List;
-import java.util.Optional;
-
-import org.springframework.stereotype.Service;
-
 import com.example.demo.entity.CustomerProfile;
+import java.util.List;
 
-@Service
 public interface CustomerProfileService {
 
-    CustomerProfile insertCustomer(CustomerProfile customer);
-    List<CustomerProfile> getAll();
-    Optional<CustomerProfile> getById(Long id);
-    void deleteCustomer(Long id);
+    CustomerProfile createCustomer(CustomerProfile customer);
+
+    CustomerProfile getCustomerById(Long id);
+
+    CustomerProfile findByCustomerId(String customerId);
+
+    List<CustomerProfile> getAllCustomers();
+
+    CustomerProfile updateTier(Long id, String newTier);
+
+    CustomerProfile updateStatus(Long id, boolean active);
 }

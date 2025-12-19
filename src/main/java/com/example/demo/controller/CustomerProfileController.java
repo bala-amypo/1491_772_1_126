@@ -1,43 +1,51 @@
 package com.example.demo.controller;
 
-import java.util.List;
-import java.util.Optional;
-
-import org.springframework.beans.factory.annotation.Autowired;
+import com.example.demo.entity.CustomerProfile;
+import com.example.demo.service.CustomerProfileService;
 import org.springframework.web.bind.annotation.*;
 
-import com.example.demo.entity.CustomerProfile;
-import com.example.demo.service.CustomerService;
+import java.util.List;
 
 @RestController
+@RequestMapping("/api/customers")
 public class CustomerProfileController {
 
-    @Autowired
-    CustomerService cs;
+    private final CustomerProfileService service;
 
-    @PostMapping("/postcustomer")
-    public CustomerProfile postCustomer(@RequestBody CustomerProfile customer) {
-        return cs.insertCustomer(customer);
+    // Constructor injection
+    public CustomerProfileController(CustomerProfileService service) {
+        this.service = service;
     }
 
-    @GetMapping("/getcustomers")
+    @PostMapping
+    public CustomerProfile createCustomer(@RequestBody CustomerProfile customer) {
+        return service.createCustomer(customer);
+    }
+
+    @GetMapping("/{id}")
+    public CustomerProfile getCustomerById(@PathVariable Long id) {
+        return service.getCustomerById(id);
+    }
+
+    @GetMapping
     public List<CustomerProfile> getAllCustomers() {
-        return cs.getAll();
+        return service.getAllCustomers();
     }
 
-    @GetMapping("/getcustomer/{id}")
-    public Optional<CustomerProfile> getCustomerById(@PathVariable Long id) {
-        return cs.getById(id);
+    @PutMapping("/{id}/tier")
+    public CustomerProfile updateTier(@PathVariable Long id,
+                                      @RequestParam String newTier) {
+        return service.updateTier(id, newTier);
     }
 
-    @DeleteMapping("/deletecustomer/{id}")
-    public String deleteCustomer(@PathVariable Long id) {
-        Optional<CustomerProfile> customer = cs.getById(id);
-        if (customer.isPresent()) {
-            cs.deleteCustomer(id);
-            return "Customer deleted successfully";
-        } else {
-            return "Customer ID not found";
-        }
+    @PutMapping("/{id}/status")
+    public CustomerProfile updateStatus(@PathVariable Long id,
+                                        @RequestParam boolean active) {
+        return service.updateStatus(id, active);
+    }
+
+    @GetMapping("/lookup/{customerId}")
+    public CustomerProfile findByCustomerId(@PathVariable String customerId) {
+        return service.findByCustomerId(customerId);
     }
 }
