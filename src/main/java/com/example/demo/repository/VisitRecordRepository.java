@@ -12,5 +12,6 @@ public interface VisitRecordRepository
 
     List<VisitRecord> findByCustomerId(Long customerId);
 
-    List<VisitRecord> findByVisitDateBetween(LocalDate start, LocalDate end);
+    List<VisitRecord> findByVisitDateBetween(
+            LocalDate start, LocalDate end);
 }

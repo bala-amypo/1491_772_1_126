@@ -20,14 +20,11 @@ public class VisitRecordServiceImpl implements VisitRecordService {
 
     @Override
     public VisitRecord recordVisit(VisitRecord visit) {
-
-        String channel = visit.getChannel();
-        if (!channel.equals("STORE") &&
-            !channel.equals("APP") &&
-            !channel.equals("WEB")) {
+        if (!visit.getChannel().equals("STORE") &&
+            !visit.getChannel().equals("APP") &&
+            !visit.getChannel().equals("WEB")) {
             throw new IllegalArgumentException("Invalid channel");
         }
-
         return repository.save(visit);
     }
 
