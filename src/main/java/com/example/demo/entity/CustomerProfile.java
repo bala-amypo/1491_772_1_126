@@ -4,73 +4,27 @@ import jakarta.persistence.*;
 import java.time.LocalDateTime;
 
 @Entity
-@Table(
-    name = "customer_profiles",
-    uniqueConstraints = {
-        @UniqueConstraint(columnNames = "customerId"),
-        @UniqueConstraint(columnNames = "email"),
-        @UniqueConstraint(columnNames = "phone")
-    }
-)
 public class CustomerProfile {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Long id; // primary key
 
-    @Column(nullable = false)
-    private String customerId;
-
-    @Column(nullable = false)
     private String fullName;
-
-    @Column(nullable = false)
     private String email;
-
-    @Column(nullable = false)
     private String phone;
-
     private String currentTier;
-
-    private Boolean active = true;
-
+    private Boolean active;
     private LocalDateTime createdAt;
 
-    public CustomerProfile() {}
-
-    public CustomerProfile(
-            String customerId,
-            String fullName,
-            String email,
-            String phone,
-            String currentTier,
-            Boolean active,
-            LocalDateTime createdAt) {
-
-        this.customerId = customerId;
-        this.fullName = fullName;
-        this.email = email;
-        this.phone = phone;
-        this.currentTier = currentTier;
-        this.active = active;
-        this.createdAt = createdAt;
-    }
-
-    @PrePersist
-    public void prePersist() {
+    public CustomerProfile() {
+        this.currentTier = "BRONZE";
+        this.active = true;
         this.createdAt = LocalDateTime.now();
-        if (this.currentTier == null) {
-            this.currentTier = "BRONZE";
-        }
-        if (this.active == null) {
-            this.active = true;
-        }
     }
 
-    // getters and setters
+    // Getters and setters
     public Long getId() { return id; }
-    public String getCustomerId() { return customerId; }
-    public void setCustomerId(String customerId) { this.customerId = customerId; }
     public String getFullName() { return fullName; }
     public void setFullName(String fullName) { this.fullName = fullName; }
     public String getEmail() { return email; }

@@ -1,14 +1,7 @@
 package com.example.demo.repository;
 
-import java.util.Optional;
-import org.springframework.data.jpa.repository.JpaRepository;
 import com.example.demo.entity.CustomerProfile;
+import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface CustomerProfileRepository extends JpaRepository<CustomerProfile, Long> {
-
-    Optional<CustomerProfile> findByCustomerId(String customerId);
-
-    Optional<CustomerProfile> findByEmail(String email);
-
-    Optional<CustomerProfile> findByPhone(String phone);
 }
