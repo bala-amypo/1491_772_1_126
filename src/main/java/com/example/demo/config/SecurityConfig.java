@@ -9,22 +9,17 @@ import org.springframework.security.web.SecurityFilterChain;
 public class SecurityConfig {
 
     @Bean
-    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 
         http
-            .csrf(csrf -> csrf.disable())   
+            .csrf(csrf -> csrf.disable())
             .authorizeHttpRequests(auth -> auth
-                // Swagger URLs
                 .requestMatchers(
                     "/swagger-ui/**",
                     "/v3/api-docs/**",
-                    "/swagger-ui.html"
+                    "/swagger-ui.html",
+                    "/api/customers/**"
                 ).permitAll()
-
-                // Customer APIs (TEMPORARY for testing)
-                .requestMatchers("/api/customers/**").permitAll()
-
-                // everything else
                 .anyRequest().authenticated()
             );
 
