@@ -11,7 +11,7 @@ public class TierUpgradeRule {
 
     public TierUpgradeRule() {}
 
-    // ===== setters REQUIRED BY TEST =====
+    // ===== setters (USED BY TEST) =====
     public void setId(Long id) { this.id = id; }
     public void setFromTier(String fromTier) { this.fromTier = fromTier; }
     public void setToTier(String toTier) { this.toTier = toTier; }

@@ -12,7 +12,7 @@ public class PurchaseRecord {
 
     public PurchaseRecord() {}
 
-    // ===== setters REQUIRED BY TEST =====
+    // ===== setters (USED BY TEST) =====
     public void setId(Long id) { this.id = id; }
     public void setAmount(Double amount) { this.amount = amount; }
     public void setPurchaseDate(LocalDate purchaseDate) { this.purchaseDate = purchaseDate; }

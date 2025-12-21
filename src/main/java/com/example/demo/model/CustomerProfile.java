@@ -25,7 +25,7 @@ public class CustomerProfile {
     public boolean isActive() { return active; }
     public LocalDateTime getCreatedAt() { return createdAt; }
 
-    // ===== setters (REQUIRED BY TEST) =====
+    // ===== setters (USED BY TEST) =====
     public void setId(Long id) { this.id = id; }
     public void setCustomerId(String customerId) { this.customerId = customerId; }
     public void setFullName(String fullName) { this.fullName = fullName; }
