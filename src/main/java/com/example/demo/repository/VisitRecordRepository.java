@@ -1,7 +1,17 @@
-import com.example.demo.entity.VisitRecord;
-import org.springframework.data.jpa.repository.JpaRepository;
+package com.example.demo.repository;
+
+import java.time.LocalDate;
 import java.util.List;
 
-public interface VisitRecordRepository extends JpaRepository<VisitRecord, Long> {
+import org.springframework.data.jpa.repository.JpaRepository;
+
+import com.example.demo.model.VisitRecord;
+
+public interface VisitRecordRepository
+        extends JpaRepository<VisitRecord, Long> {
+
     List<VisitRecord> findByCustomerId(Long customerId);
+
+    List<VisitRecord> findByVisitDateBetween(
+            LocalDate startDate, LocalDate endDate);
 }
