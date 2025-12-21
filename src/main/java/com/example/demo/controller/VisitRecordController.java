@@ -1,39 +1,17 @@
-package com.example.demo.controller;
+package com.example.demo.repository;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
-import org.springframework.web.bind.annotation.*;
+import org.springframework.data.jpa.repository.JpaRepository;
 
-import com.example.demo.model.VisitRecord;
-import com.example.demo.service.VisitRecordService;
+import com.example.demo.model.TierHistoryRecord;
 
-@RestController
-@RequestMapping("/visits")
-public class VisitRecordController {
+public interface TierHistoryRecordRepository
+        extends JpaRepository<TierHistoryRecord, Long> {
 
-    private final VisitRecordService visitService;
+    List<TierHistoryRecord> findByCustomerId(Long customerId);
 
-    public VisitRecordController(VisitRecordService visitService) {
-        this.visitService = visitService;
-    }
-
-    @PostMapping
-    public VisitRecord recordVisit(@RequestBody VisitRecord visit) {
-        return visitService.recordVisit(visit);
-    }
-
-    @GetMapping("/{id}")
-    public VisitRecord getVisit(@PathVariable Long id) {
-        return visitService.getVisitById(id);
-    }
-
-    @GetMapping("/customer/{customerId}")
-    public List<VisitRecord> getByCustomer(@PathVariable Long customerId) {
-        return visitService.getVisitsByCustomer(customerId);
-    }
-
-    @GetMapping
-    public List<VisitRecord> getAllVisits() {
-        return visitService.getAllVisits();
-    }
+    List<TierHistoryRecord> findByChangedAtBetween(
+            LocalDateTime start, LocalDateTime end);
 }
