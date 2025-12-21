@@ -1,6 +1,7 @@
 package com.example.demo.service;
 
 import java.util.List;
+import java.util.Optional;
 
 import com.example.demo.model.CustomerProfile;
 
@@ -10,7 +11,7 @@ public interface CustomerProfileService {
 
     CustomerProfile getCustomerById(Long id);
 
-    CustomerProfile findByCustomerId(String customerId);
+    Optional<CustomerProfile> findByCustomerId(String customerId);
 
     List<CustomerProfile> getAllCustomers();
 
