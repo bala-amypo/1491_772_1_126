@@ -1,23 +1,17 @@
-package com.example.demo.controller;
+package com.example.demo.repository;
 
-import org.springframework.web.bind.annotation.*;
-import com.example.demo.model.TierUpgradeRule;
-import com.example.demo.service.TierUpgradeRuleService;
+import java.time.LocalDateTime;
+import java.util.List;
 
-@RestController
-@RequestMapping("/tier-rules")
-public class TierUpgradeRuleController {
+import org.springframework.data.jpa.repository.JpaRepository;
 
-    private final TierUpgradeRuleService service;
+import com.example.demo.model.TierHistoryRecord;
 
-    public TierUpgradeRuleController(TierUpgradeRuleService service) {
-        this.service = service;
-    }
+public interface TierHistoryRecordRepository
+        extends JpaRepository<TierHistoryRecord, Long> {
 
-    @GetMapping("/lookup")
-    public TierUpgradeRule getRule(
-            @RequestParam String fromTier,
-            @RequestParam String toTier) {
-        return service.getRule(fromTier, toTier);
-    }
+    List<TierHistoryRecord> findByCustomerId(Long customerId);
+
+    List<TierHistoryRecord> findByChangedAtBetween(
+            LocalDateTime start, LocalDateTime end);
 }
