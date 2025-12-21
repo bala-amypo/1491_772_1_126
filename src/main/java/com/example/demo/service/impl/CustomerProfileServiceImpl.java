@@ -33,7 +33,7 @@ public class CustomerProfileServiceImpl implements CustomerProfileService {
     }
 
     @Override
-    public CustomerProfile getCustomerByCustomerId(String customerId) {
+    public CustomerProfile findByCustomerId(String customerId) {
         return customerRepo.findByCustomerId(customerId)
                 .orElseThrow(() -> new NoSuchElementException("Customer not found"));
     }

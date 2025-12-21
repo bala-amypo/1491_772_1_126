@@ -28,7 +28,8 @@ public class TierUpgradeRuleServiceImpl implements TierUpgradeRuleService {
 
     @Override
     public TierUpgradeRule updateRule(Long id, TierUpgradeRule rule) {
-        TierUpgradeRule existing = getRuleById(id);
+        TierUpgradeRule existing = ruleRepo.findById(id)
+                .orElseThrow(() -> new NoSuchElementException("Rule not found"));
 
         existing.setFromTier(rule.getFromTier());
         existing.setToTier(rule.getToTier());
@@ -40,8 +41,8 @@ public class TierUpgradeRuleServiceImpl implements TierUpgradeRuleService {
     }
 
     @Override
-    public TierUpgradeRule getRuleById(Long id) {
-        return ruleRepo.findById(id)
+    public TierUpgradeRule getRule(String fromTier, String toTier) {
+        return ruleRepo.findByFromTierAndToTier(fromTier, toTier)
                 .orElseThrow(() -> new NoSuchElementException("Rule not found"));
     }
 
