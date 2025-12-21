@@ -1,41 +1,46 @@
 package com.example.demo.controller;
 
-import com.example.demo.model.TierUpgradeRule;
-import com.example.demo.service.TierUpgradeRuleService;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
-
 import java.util.List;
 
+import org.springframework.web.bind.annotation.*;
+
+import com.example.demo.model.TierUpgradeRule;
+import com.example.demo.service.TierUpgradeRuleService;
+
 @RestController
-@RequestMapping("/api/rules")
+@RequestMapping("/tier-rules")
 public class TierUpgradeRuleController {
 
-    @Autowired
-    private TierUpgradeRuleService service;
+    private final TierUpgradeRuleService ruleService;
+
+    public TierUpgradeRuleController(TierUpgradeRuleService ruleService) {
+        this.ruleService = ruleService;
+    }
 
     @PostMapping
     public TierUpgradeRule createRule(@RequestBody TierUpgradeRule rule) {
-        return service.createRule(rule);
+        return ruleService.createRule(rule);
     }
 
     @PutMapping("/{id}")
-    public TierUpgradeRule updateRule(@PathVariable Long id, @RequestBody TierUpgradeRule rule) {
-        return service.updateRule(id, rule);
+    public TierUpgradeRule updateRule(
+            @PathVariable Long id,
+            @RequestBody TierUpgradeRule rule) {
+        return ruleService.updateRule(id, rule);
     }
 
-    @DeleteMapping("/{id}")
-    public void deleteRule(@PathVariable Long id) {
-        service.deleteRule(id);
-    }
-
-    @GetMapping
-    public List<TierUpgradeRule> getAllRules() {
-        return service.getAllRules();
+    @GetMapping("/{id}")
+    public TierUpgradeRule getRule(@PathVariable Long id) {
+        return ruleService.getRuleById(id);
     }
 
     @GetMapping("/active")
     public List<TierUpgradeRule> getActiveRules() {
-        return service.getActiveRules();
+        return ruleService.getActiveRules();
+    }
+
+    @GetMapping
+    public List<TierUpgradeRule> getAllRules() {
+        return ruleService.getAllRules();
     }
 }

@@ -1,36 +1,39 @@
 package com.example.demo.controller;
 
-import com.example.demo.model.PurchaseRecord;
-import com.example.demo.model.CustomerProfile;
-import com.example.demo.service.PurchaseRecordService;
-import com.example.demo.service.CustomerProfileService;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
-
 import java.util.List;
 
+import org.springframework.web.bind.annotation.*;
+
+import com.example.demo.model.PurchaseRecord;
+import com.example.demo.service.PurchaseRecordService;
+
 @RestController
-@RequestMapping("/api/purchases")
+@RequestMapping("/purchases")
 public class PurchaseRecordController {
 
-    @Autowired
-    private PurchaseRecordService service;
+    private final PurchaseRecordService purchaseService;
 
-    @Autowired
-    private CustomerProfileService customerService;
-
-    @PostMapping("/{customerId}")
-    public PurchaseRecord recordPurchase(@PathVariable String customerId, @RequestBody PurchaseRecord purchase) {
-        CustomerProfile customer = customerService.getCustomerByCustomerId(customerId)
-                .orElseThrow(() -> new RuntimeException("Customer not found"));
-        purchase.setCustomer(customer);
-        return service.recordPurchase(purchase);
+    public PurchaseRecordController(PurchaseRecordService purchaseService) {
+        this.purchaseService = purchaseService;
     }
 
-    @GetMapping("/{customerId}")
-    public List<PurchaseRecord> getPurchasesByCustomer(@PathVariable String customerId) {
-        CustomerProfile customer = customerService.getCustomerByCustomerId(customerId)
-                .orElseThrow(() -> new RuntimeException("Customer not found"));
-        return service.getPurchasesByCustomer(customer);
+    @PostMapping
+    public PurchaseRecord recordPurchase(@RequestBody PurchaseRecord purchase) {
+        return purchaseService.recordPurchase(purchase);
+    }
+
+    @GetMapping("/{id}")
+    public PurchaseRecord getPurchase(@PathVariable Long id) {
+        return purchaseService.getPurchaseById(id);
+    }
+
+    @GetMapping("/customer/{customerId}")
+    public List<PurchaseRecord> getByCustomer(@PathVariable Long customerId) {
+        return purchaseService.getPurchasesByCustomer(customerId);
+    }
+
+    @GetMapping
+    public List<PurchaseRecord> getAllPurchases() {
+        return purchaseService.getAllPurchases();
     }
 }

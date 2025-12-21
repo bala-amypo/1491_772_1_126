@@ -1,36 +1,39 @@
 package com.example.demo.controller;
 
-import com.example.demo.model.VisitRecord;
-import com.example.demo.model.CustomerProfile;
-import com.example.demo.service.VisitRecordService;
-import com.example.demo.service.CustomerProfileService;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
-
 import java.util.List;
 
+import org.springframework.web.bind.annotation.*;
+
+import com.example.demo.model.VisitRecord;
+import com.example.demo.service.VisitRecordService;
+
 @RestController
-@RequestMapping("/api/visits")
+@RequestMapping("/visits")
 public class VisitRecordController {
 
-    @Autowired
-    private VisitRecordService service;
+    private final VisitRecordService visitService;
 
-    @Autowired
-    private CustomerProfileService customerService;
-
-    @PostMapping("/{customerId}")
-    public VisitRecord recordVisit(@PathVariable String customerId, @RequestBody VisitRecord visit) {
-        CustomerProfile customer = customerService.getCustomerByCustomerId(customerId)
-                .orElseThrow(() -> new RuntimeException("Customer not found"));
-        visit.setCustomer(customer);
-        return service.recordVisit(visit);
+    public VisitRecordController(VisitRecordService visitService) {
+        this.visitService = visitService;
     }
 
-    @GetMapping("/{customerId}")
-    public List<VisitRecord> getVisitsByCustomer(@PathVariable String customerId) {
-        CustomerProfile customer = customerService.getCustomerByCustomerId(customerId)
-                .orElseThrow(() -> new RuntimeException("Customer not found"));
-        return service.getVisitsByCustomer(customer);
+    @PostMapping
+    public VisitRecord recordVisit(@RequestBody VisitRecord visit) {
+        return visitService.recordVisit(visit);
+    }
+
+    @GetMapping("/{id}")
+    public VisitRecord getVisit(@PathVariable Long id) {
+        return visitService.getVisitById(id);
+    }
+
+    @GetMapping("/customer/{customerId}")
+    public List<VisitRecord> getByCustomer(@PathVariable Long customerId) {
+        return visitService.getVisitsByCustomer(customerId);
+    }
+
+    @GetMapping
+    public List<VisitRecord> getAllVisits() {
+        return visitService.getAllVisits();
     }
 }
