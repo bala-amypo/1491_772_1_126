@@ -13,13 +13,13 @@ import com.example.demo.service.VisitRecordService;
 @Service
 public class VisitRecordServiceImpl implements VisitRecordService {
 
-    private final VisitRecordRepository visitRepo;
+    private final VisitRecordRepository repo;
 
     private static final Set<String> VALID_CHANNELS =
             Set.of("STORE", "APP", "WEB");
 
-    public VisitRecordServiceImpl(VisitRecordRepository visitRepo) {
-        this.visitRepo = visitRepo;
+    public VisitRecordServiceImpl(VisitRecordRepository repo) {
+        this.repo = repo;
     }
 
     @Override
@@ -27,22 +27,22 @@ public class VisitRecordServiceImpl implements VisitRecordService {
         if (!VALID_CHANNELS.contains(visit.getChannel())) {
             throw new IllegalArgumentException("Invalid channel");
         }
-        return visitRepo.save(visit);
+        return repo.save(visit);
     }
 
     @Override
     public VisitRecord getVisitById(Long id) {
-        return visitRepo.findById(id)
+        return repo.findById(id)
                 .orElseThrow(() -> new NoSuchElementException("Visit record not found"));
     }
 
     @Override
     public List<VisitRecord> getVisitsByCustomer(Long customerId) {
-        return visitRepo.findByCustomerId(customerId);
+        return repo.findByCustomerId(customerId);
     }
 
     @Override
     public List<VisitRecord> getAllVisits() {
-        return visitRepo.findAll();
+        return repo.findAll();
     }
 }
