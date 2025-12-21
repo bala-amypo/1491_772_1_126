@@ -1,10 +1,7 @@
 package com.example.demo.service.impl;
 
-import java.util.List;
-import java.util.NoSuchElementException;
-
+import java.util.*;
 import org.springframework.stereotype.Service;
-
 import com.example.demo.model.TierUpgradeRule;
 import com.example.demo.repository.TierUpgradeRuleRepository;
 import com.example.demo.service.TierUpgradeRuleService;
@@ -12,47 +9,39 @@ import com.example.demo.service.TierUpgradeRuleService;
 @Service
 public class TierUpgradeRuleServiceImpl implements TierUpgradeRuleService {
 
-    private final TierUpgradeRuleRepository ruleRepo;
+    private final TierUpgradeRuleRepository repo;
 
-    public TierUpgradeRuleServiceImpl(TierUpgradeRuleRepository ruleRepo) {
-        this.ruleRepo = ruleRepo;
+    public TierUpgradeRuleServiceImpl(TierUpgradeRuleRepository repo) {
+        this.repo = repo;
     }
 
-    @Override
     public TierUpgradeRule createRule(TierUpgradeRule rule) {
-        if (rule.getMinSpend() < 0 || rule.getMinVisits() < 0) {
-            throw new IllegalArgumentException("Invalid rule values");
-        }
-        return ruleRepo.save(rule);
+        return repo.save(rule);
     }
 
-    @Override
     public TierUpgradeRule updateRule(Long id, TierUpgradeRule rule) {
-        TierUpgradeRule existing = ruleRepo.findById(id)
+        TierUpgradeRule r = repo.findById(id)
                 .orElseThrow(() -> new NoSuchElementException("Rule not found"));
 
-        existing.setFromTier(rule.getFromTier());
-        existing.setToTier(rule.getToTier());
-        existing.setMinSpend(rule.getMinSpend());
-        existing.setMinVisits(rule.getMinVisits());
-        existing.setActive(rule.getActive());
+        r.setFromTier(rule.getFromTier());
+        r.setToTier(rule.getToTier());
+        r.setMinSpend(rule.getMinSpend());
+        r.setMinVisits(rule.getMinVisits());
+        r.setActive(rule.getActive());
 
-        return ruleRepo.save(existing);
+        return repo.save(r);
     }
 
-    @Override
     public TierUpgradeRule getRule(String fromTier, String toTier) {
-        return ruleRepo.findByFromTierAndToTier(fromTier, toTier)
+        return repo.findByFromTierAndToTier(fromTier, toTier)
                 .orElseThrow(() -> new NoSuchElementException("Rule not found"));
     }
 
-    @Override
     public List<TierUpgradeRule> getActiveRules() {
-        return ruleRepo.findByActiveTrue();
+        return repo.findByActiveTrue();
     }
 
-    @Override
     public List<TierUpgradeRule> getAllRules() {
-        return ruleRepo.findAll();
+        return repo.findAll();
     }
 }

@@ -1,10 +1,7 @@
 package com.example.demo.service.impl;
 
-import java.util.List;
-import java.util.NoSuchElementException;
-
+import java.util.*;
 import org.springframework.stereotype.Service;
-
 import com.example.demo.model.CustomerProfile;
 import com.example.demo.repository.CustomerProfileRepository;
 import com.example.demo.service.CustomerProfileService;
@@ -12,48 +9,41 @@ import com.example.demo.service.CustomerProfileService;
 @Service
 public class CustomerProfileServiceImpl implements CustomerProfileService {
 
-    private final CustomerProfileRepository customerRepo;
+    private final CustomerProfileRepository repo;
 
-    public CustomerProfileServiceImpl(CustomerProfileRepository customerRepo) {
-        this.customerRepo = customerRepo;
+    public CustomerProfileServiceImpl(CustomerProfileRepository repo) {
+        this.repo = repo;
     }
 
-    @Override
-    public CustomerProfile createCustomer(CustomerProfile customer) {
-        if (customerRepo.findByCustomerId(customer.getCustomerId()).isPresent()) {
+    public CustomerProfile createCustomer(CustomerProfile c) {
+        if (repo.findByCustomerId(c.getCustomerId()).isPresent())
             throw new IllegalArgumentException("Customer ID already exists");
-        }
-        return customerRepo.save(customer);
+        return repo.save(c);
     }
 
-    @Override
     public CustomerProfile getCustomerById(Long id) {
-        return customerRepo.findById(id)
+        return repo.findById(id)
                 .orElseThrow(() -> new NoSuchElementException("Customer not found"));
     }
 
-    @Override
     public CustomerProfile findByCustomerId(String customerId) {
-        return customerRepo.findByCustomerId(customerId)
+        return repo.findByCustomerId(customerId)
                 .orElseThrow(() -> new NoSuchElementException("Customer not found"));
     }
 
-    @Override
     public List<CustomerProfile> getAllCustomers() {
-        return customerRepo.findAll();
+        return repo.findAll();
     }
 
-    @Override
-    public CustomerProfile updateTier(Long id, String newTier) {
-        CustomerProfile customer = getCustomerById(id);
-        customer.setCurrentTier(newTier);
-        return customerRepo.save(customer);
+    public CustomerProfile updateTier(Long id, String tier) {
+        CustomerProfile c = getCustomerById(id);
+        c.setCurrentTier(tier);
+        return repo.save(c);
     }
 
-    @Override
     public CustomerProfile updateStatus(Long id, boolean active) {
-        CustomerProfile customer = getCustomerById(id);
-        customer.setActive(active);
-        return customerRepo.save(customer);
+        CustomerProfile c = getCustomerById(id);
+        c.setActive(active);
+        return repo.save(c);
     }
 }

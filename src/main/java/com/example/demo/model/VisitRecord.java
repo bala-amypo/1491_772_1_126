@@ -21,20 +21,10 @@ public class VisitRecord {
 
     public VisitRecord() {}
 
-    public VisitRecord(Long customerId, LocalDate visitDate, String channel) {
-        this.customerId = customerId;
-        this.visitDate = visitDate;
-        this.channel = channel;
-    }
-
     public void setCustomer(CustomerProfile customer) {
         this.customer = customer;
         this.customerId = customer.getId();
     }
 
-    public CustomerProfile getCustomer() { return customer; }
-
-    // getters
-    public Long getId() { return id; }
     public String getChannel() { return channel; }
 }
