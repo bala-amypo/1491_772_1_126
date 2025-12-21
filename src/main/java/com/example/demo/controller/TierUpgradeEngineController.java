@@ -1,17 +1,40 @@
-package com.example.demo.repository;
+package com.example.demo.controller;
 
 import java.util.List;
-import java.util.Optional;
 
-import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.web.bind.annotation.*;
 
-import com.example.demo.model.TierUpgradeRule;
+import com.example.demo.model.TierHistoryRecord;
+import com.example.demo.service.TierUpgradeEngineService;
 
-public interface TierUpgradeRuleRepository
-        extends JpaRepository<TierUpgradeRule, Long> {
+@RestController
+@RequestMapping("/tier-engine")
+public class TierUpgradeEngineController {
 
-    Optional<TierUpgradeRule> findByFromTierAndToTier(
-            String fromTier, String toTier);
+    private final TierUpgradeEngineService engineService;
 
-    List<TierUpgradeRule> findByActiveTrue();
+    public TierUpgradeEngineController(
+            TierUpgradeEngineService engineService) {
+        this.engineService = engineService;
+    }
+
+    // Evaluate and upgrade tier
+    @PostMapping("/evaluate/{customerId}")
+    public TierHistoryRecord evaluateTier(
+            @PathVariable Long customerId) {
+        return engineService.evaluateAndUpgradeTier(customerId);
+    }
+
+    // Get history by customer
+    @GetMapping("/history/{customerId}")
+    public List<TierHistoryRecord> getHistoryByCustomer(
+            @PathVariable Long customerId) {
+        return engineService.getHistoryByCustomer(customerId);
+    }
+
+    // Get all history
+    @GetMapping
+    public List<TierHistoryRecord> getAllHistory() {
+        return engineService.getAllHistory();
+    }
 }
