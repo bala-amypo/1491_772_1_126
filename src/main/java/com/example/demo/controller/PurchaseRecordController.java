@@ -1,39 +1,17 @@
-package com.example.demo.controller;
+package com.example.demo.repository;
 
+import java.time.LocalDate;
 import java.util.List;
 
-import org.springframework.web.bind.annotation.*;
+import org.springframework.data.jpa.repository.JpaRepository;
 
 import com.example.demo.model.PurchaseRecord;
-import com.example.demo.service.PurchaseRecordService;
 
-@RestController
-@RequestMapping("/purchases")
-public class PurchaseRecordController {
+public interface PurchaseRecordRepository
+        extends JpaRepository<PurchaseRecord, Long> {
 
-    private final PurchaseRecordService purchaseService;
+    List<PurchaseRecord> findByCustomerId(Long customerId);
 
-    public PurchaseRecordController(PurchaseRecordService purchaseService) {
-        this.purchaseService = purchaseService;
-    }
-
-    @PostMapping
-    public PurchaseRecord recordPurchase(@RequestBody PurchaseRecord purchase) {
-        return purchaseService.recordPurchase(purchase);
-    }
-
-    @GetMapping("/{id}")
-    public PurchaseRecord getPurchase(@PathVariable Long id) {
-        return purchaseService.getPurchaseById(id);
-    }
-
-    @GetMapping("/customer/{customerId}")
-    public List<PurchaseRecord> getByCustomer(@PathVariable Long customerId) {
-        return purchaseService.getPurchasesByCustomer(customerId);
-    }
-
-    @GetMapping
-    public List<PurchaseRecord> getAllPurchases() {
-        return purchaseService.getAllPurchases();
-    }
+    List<PurchaseRecord> findByPurchaseDateBetween(
+            LocalDate startDate, LocalDate endDate);
 }
