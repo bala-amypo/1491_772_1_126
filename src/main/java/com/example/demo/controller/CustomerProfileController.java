@@ -1,9 +1,6 @@
 package com.example.demo.controller;
 
-import java.util.List;
-
 import org.springframework.web.bind.annotation.*;
-
 import com.example.demo.model.CustomerProfile;
 import com.example.demo.service.CustomerProfileService;
 
@@ -11,43 +8,14 @@ import com.example.demo.service.CustomerProfileService;
 @RequestMapping("/customers")
 public class CustomerProfileController {
 
-    private final CustomerProfileService customerService;
+    private final CustomerProfileService service;
 
-    public CustomerProfileController(CustomerProfileService customerService) {
-        this.customerService = customerService;
-    }
-
-    @PostMapping
-    public CustomerProfile createCustomer(@RequestBody CustomerProfile customer) {
-        return customerService.createCustomer(customer);
-    }
-
-    @GetMapping("/{id}")
-    public CustomerProfile getCustomer(@PathVariable Long id) {
-        return customerService.getCustomerById(id);
-    }
-
-    @GetMapping
-    public List<CustomerProfile> getAllCustomers() {
-        return customerService.getAllCustomers();
-    }
-
-    @PutMapping("/{id}/tier")
-    public CustomerProfile updateTier(
-            @PathVariable Long id,
-            @RequestParam String newTier) {
-        return customerService.updateTier(id, newTier);
-    }
-
-    @PutMapping("/{id}/status")
-    public CustomerProfile updateStatus(
-            @PathVariable Long id,
-            @RequestParam boolean active) {
-        return customerService.updateStatus(id, active);
+    public CustomerProfileController(CustomerProfileService service) {
+        this.service = service;
     }
 
     @GetMapping("/lookup/{customerId}")
     public CustomerProfile getByCustomerId(@PathVariable String customerId) {
-        return customerService.getCustomerByCustomerId(customerId);
+        return service.findByCustomerId(customerId);
     }
 }
