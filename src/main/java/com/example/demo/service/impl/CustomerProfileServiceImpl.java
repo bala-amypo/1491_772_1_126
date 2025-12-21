@@ -41,14 +41,9 @@ public class CustomerProfileServiceImpl implements CustomerProfileService {
     }
 
     @Override
-    public void deleteCustomer(Long id) {
-        repository.deleteById(id);
-    }
-
-    @Override
-    public CustomerProfile updateTier(Long id, String newTier) {
+    public CustomerProfile updateTier(Long id, String tier) {
         CustomerProfile customer = repository.findById(id).orElseThrow();
-        customer.setCurrentTier(newTier);
+        customer.setCurrentTier(tier);
         return repository.save(customer);
     }
 
@@ -57,5 +52,10 @@ public class CustomerProfileServiceImpl implements CustomerProfileService {
         CustomerProfile customer = repository.findById(id).orElseThrow();
         customer.setActive(active);
         return repository.save(customer);
+    }
+
+    @Override
+    public void deleteCustomer(Long id) {
+        repository.deleteById(id);
     }
 }
