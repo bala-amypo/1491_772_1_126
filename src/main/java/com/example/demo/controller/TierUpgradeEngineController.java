@@ -1,17 +1,17 @@
 package com.example.demo.repository;
 
-import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import com.example.demo.model.VisitRecord;
+import com.example.demo.model.TierUpgradeRule;
 
-public interface VisitRecordRepository
-        extends JpaRepository<VisitRecord, Long> {
+public interface TierUpgradeRuleRepository
+        extends JpaRepository<TierUpgradeRule, Long> {
 
-    List<VisitRecord> findByCustomerId(Long customerId);
+    Optional<TierUpgradeRule> findByFromTierAndToTier(
+            String fromTier, String toTier);
 
-    List<VisitRecord> findByVisitDateBetween(
-            LocalDate startDate, LocalDate endDate);
+    List<TierUpgradeRule> findByActiveTrue();
 }
