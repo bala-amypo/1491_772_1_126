@@ -1,12 +1,13 @@
 package com.example.demo.service.impl;
 
 import com.example.demo.model.PurchaseRecord;
+import com.example.demo.model.CustomerProfile;
 import com.example.demo.repository.PurchaseRecordRepository;
 import com.example.demo.service.PurchaseRecordService;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.NoSuchElementException;
+import java.util.Optional;
 
 @Service
 public class PurchaseRecordServiceImpl implements PurchaseRecordService {
@@ -18,18 +19,17 @@ public class PurchaseRecordServiceImpl implements PurchaseRecordService {
     }
 
     @Override
-    public PurchaseRecord createPurchase(PurchaseRecord purchase) {
+    public PurchaseRecord recordPurchase(PurchaseRecord purchase) {
         return repository.save(purchase);
     }
 
     @Override
-    public PurchaseRecord getPurchaseById(Long id) {
-        return repository.findById(id)
-                .orElseThrow(() -> new NoSuchElementException("Purchase not found"));
+    public List<PurchaseRecord> getPurchasesByCustomer(CustomerProfile customer) {
+        return repository.findByCustomer(customer);
     }
 
     @Override
-    public List<PurchaseRecord> getAllPurchases() {
-        return repository.findAll();
+    public Optional<PurchaseRecord> getPurchaseById(Long id) {
+        return repository.findById(id);
     }
 }

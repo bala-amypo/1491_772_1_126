@@ -2,7 +2,9 @@ package com.example.demo.controller;
 
 import com.example.demo.model.TierUpgradeRule;
 import com.example.demo.service.TierUpgradeRuleService;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
 import java.util.List;
 
 @RestController
@@ -15,9 +17,14 @@ public class TierUpgradeRuleController {
         this.service = service;
     }
 
+    @PostMapping
+    public ResponseEntity<TierUpgradeRule> createRule(@RequestBody TierUpgradeRule rule) {
+        return ResponseEntity.ok(service.createRule(rule));
+    }
+
     @PutMapping("/{id}")
-    public TierUpgradeRule updateRule(@PathVariable Long id, @RequestBody TierUpgradeRule rule) {
-        return service.updateRule(id, rule);
+    public ResponseEntity<TierUpgradeRule> updateRule(@PathVariable Long id, @RequestBody TierUpgradeRule rule) {
+        return ResponseEntity.ok(service.updateRule(id, rule));
     }
 
     @GetMapping("/active")

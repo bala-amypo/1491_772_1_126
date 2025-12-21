@@ -23,15 +23,13 @@ public class CustomerProfileServiceImpl implements CustomerProfileService {
     }
 
     @Override
-    public CustomerProfile getCustomerById(Long id) {
-        Optional<CustomerProfile> customer = repository.findById(id);
-        return customer.orElse(null);
+    public Optional<CustomerProfile> getCustomerById(Long id) {
+        return repository.findById(id);
     }
 
     @Override
-    public CustomerProfile getCustomerByCustomerId(String customerId) {
-        Optional<CustomerProfile> customer = repository.findByCustomerId(customerId);
-        return customer.orElse(null);
+    public Optional<CustomerProfile> getCustomerByCustomerId(String customerId) {
+        return repository.findByCustomerId(customerId);
     }
 
     @Override
@@ -40,22 +38,16 @@ public class CustomerProfileServiceImpl implements CustomerProfileService {
     }
 
     @Override
-    public void updateTier(Long id, String newTier) {
-        Optional<CustomerProfile> optionalCustomer = repository.findById(id);
-        if (optionalCustomer.isPresent()) {
-            CustomerProfile customer = optionalCustomer.get();
-            customer.setCurrentTier(newTier);
-            repository.save(customer);
-        }
+    public CustomerProfile updateTier(Long id, String newTier) {
+        CustomerProfile customer = repository.findById(id).orElseThrow(() -> new RuntimeException("Customer not found"));
+        customer.setCurrentTier(newTier);
+        return repository.save(customer);
     }
 
     @Override
-    public void updateStatus(Long id, boolean active) {
-        Optional<CustomerProfile> optionalCustomer = repository.findById(id);
-        if (optionalCustomer.isPresent()) {
-            CustomerProfile customer = optionalCustomer.get();
-            customer.setActive(active);
-            repository.save(customer);
-        }
+    public CustomerProfile updateStatus(Long id, boolean active) {
+        CustomerProfile customer = repository.findById(id).orElseThrow(() -> new RuntimeException("Customer not found"));
+        customer.setActive(active);
+        return repository.save(customer);
     }
 }

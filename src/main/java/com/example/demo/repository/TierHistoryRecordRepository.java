@@ -1,20 +1,13 @@
 package com.example.demo.repository;
 
 import com.example.demo.model.TierHistoryRecord;
+import com.example.demo.model.CustomerProfile;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
 
-import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Optional;
 
-public interface TierHistoryRecordRepository {
-
-    TierHistoryRecord save(TierHistoryRecord record);
-
-    Optional<TierHistoryRecord> findById(Long id);
-
-    List<TierHistoryRecord> findAll();
-
-    List<TierHistoryRecord> findByCustomerId(Long customerId);
-
-    List<TierHistoryRecord> findByChangedAtBetween(LocalDateTime start, LocalDateTime end);
+@Repository
+public interface TierHistoryRecordRepository extends JpaRepository<TierHistoryRecord, Long> {
+    List<TierHistoryRecord> findByCustomer(CustomerProfile customer);
 }

@@ -1,12 +1,13 @@
 package com.example.demo.service.impl;
 
 import com.example.demo.model.VisitRecord;
+import com.example.demo.model.CustomerProfile;
 import com.example.demo.repository.VisitRecordRepository;
 import com.example.demo.service.VisitRecordService;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.NoSuchElementException;
+import java.util.Optional;
 
 @Service
 public class VisitRecordServiceImpl implements VisitRecordService {
@@ -18,18 +19,17 @@ public class VisitRecordServiceImpl implements VisitRecordService {
     }
 
     @Override
-    public VisitRecord createVisit(VisitRecord visit) {
+    public VisitRecord recordVisit(VisitRecord visit) {
         return repository.save(visit);
     }
 
     @Override
-    public VisitRecord getVisitById(Long id) {
-        return repository.findById(id)
-                .orElseThrow(() -> new NoSuchElementException("Visit not found"));
+    public List<VisitRecord> getVisitsByCustomer(CustomerProfile customer) {
+        return repository.findByCustomer(customer);
     }
 
     @Override
-    public List<VisitRecord> getAllVisits() {
-        return repository.findAll();
+    public Optional<VisitRecord> getVisitById(Long id) {
+        return repository.findById(id);
     }
 }

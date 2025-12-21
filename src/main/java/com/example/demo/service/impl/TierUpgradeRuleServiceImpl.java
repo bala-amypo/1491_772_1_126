@@ -6,7 +6,7 @@ import com.example.demo.service.TierUpgradeRuleService;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.NoSuchElementException;
+import java.util.Optional;
 
 @Service
 public class TierUpgradeRuleServiceImpl implements TierUpgradeRuleService {
@@ -23,13 +23,23 @@ public class TierUpgradeRuleServiceImpl implements TierUpgradeRuleService {
     }
 
     @Override
-    public TierUpgradeRule getRule(String currentTier, String nextTier) {
-        return repository.findByCurrentTierAndNextTier(currentTier, nextTier)
-                .orElseThrow(() -> new NoSuchElementException("Tier rule not found"));
+    public TierUpgradeRule updateRule(Long id, TierUpgradeRule rule) {
+        TierUpgradeRule updatedRule = repository.findById(id).orElseThrow(() -> new RuntimeException("Rule not found"));
+        updatedRule.setCurrentTier(rule.getCurrentTier());
+        updatedRule.setNextTier(rule.getNextTier());
+        updatedRule.setPointsRequired(rule.getPointsRequired());
+        updatedRule.setVisitsRequired(rule.getVisitsRequired());
+        updatedRule.setActive(rule.getActive());
+        return repository.save(updatedRule);
     }
 
     @Override
-    public List<TierUpgradeRule> getAllRules() {
-        return repository.findAll();
+    public List<TierUpgradeRule> getActiveRules() {
+        return repository.findByActive(true);
+    }
+
+    @Override
+    public Optional<TierUpgradeRule> getRule(String currentTier, String nextTier) {
+        return repository.findByCurrentTierAndNextTier(currentTier, nextTier);
     }
 }

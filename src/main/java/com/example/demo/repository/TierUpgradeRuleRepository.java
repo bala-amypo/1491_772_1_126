@@ -1,19 +1,14 @@
 package com.example.demo.repository;
 
 import com.example.demo.model.TierUpgradeRule;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
 
-import java.util.List;
 import java.util.Optional;
+import java.util.List;
 
-public interface TierUpgradeRuleRepository {
-
-    TierUpgradeRule save(TierUpgradeRule rule);
-
-    Optional<TierUpgradeRule> findById(Long id);
-
-    List<TierUpgradeRule> findAll();
-
-    Optional<TierUpgradeRule> findByFromTierAndToTier(String fromTier, String toTier);
-
+@Repository
+public interface TierUpgradeRuleRepository extends JpaRepository<TierUpgradeRule, Long> {
+    Optional<TierUpgradeRule> findByCurrentTierAndNextTier(String currentTier, String nextTier);
     List<TierUpgradeRule> findByActiveTrue();
 }
