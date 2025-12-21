@@ -1,8 +1,6 @@
 package com.example.demo.entity;
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotNull;
-
 import java.time.LocalDate;
 
 @Entity
@@ -13,13 +11,12 @@ public class PurchaseRecord {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotNull
+    @Column(nullable = false)
     private Long customerId;
 
-    @NotNull
+    @Column(nullable = false)
     private Double amount;
 
-    @NotNull
     private LocalDate purchaseDate;
 
     private String storeLocation;
@@ -35,22 +32,47 @@ public class PurchaseRecord {
         this.storeLocation = storeLocation;
     }
 
-    // getters & setters
-    public Long getId() { return id; }
-    public void setId(Long id) { this.id = id; }
+    @PrePersist
+    public void onCreate() {
+        if (this.purchaseDate == null) {
+            this.purchaseDate = LocalDate.now();
+        }
+    }
 
-    public Long getCustomerId() { return customerId; }
-    public void setCustomerId(Long customerId) { this.customerId = customerId; }
+    // Getters and Setters
 
-    public Double getAmount() { return amount; }
-    public void setAmount(Double amount) { this.amount = amount; }
+    public Long getId() {
+        return id;
+    }
 
-    public LocalDate getPurchaseDate() { return purchaseDate; }
+    public Long getCustomerId() {
+        return customerId;
+    }
+
+    public void setCustomerId(Long customerId) {
+        this.customerId = customerId;
+    }
+
+    public Double getAmount() {
+        return amount;
+    }
+
+    public void setAmount(Double amount) {
+        this.amount = amount;
+    }
+
+    public LocalDate getPurchaseDate() {
+        return purchaseDate;
+    }
+
     public void setPurchaseDate(LocalDate purchaseDate) {
         this.purchaseDate = purchaseDate;
     }
 
-    public String getStoreLocation() { return storeLocation; }
+    public String getStoreLocation() {
+        return storeLocation;
+    }
+
     public void setStoreLocation(String storeLocation) {
         this.storeLocation = storeLocation;
     }
