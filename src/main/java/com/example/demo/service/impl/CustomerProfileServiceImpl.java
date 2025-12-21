@@ -6,7 +6,7 @@ import com.example.demo.service.CustomerProfileService;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.NoSuchElementException;
+import java.util.Optional;
 
 @Service
 public class CustomerProfileServiceImpl implements CustomerProfileService {
@@ -24,32 +24,38 @@ public class CustomerProfileServiceImpl implements CustomerProfileService {
 
     @Override
     public CustomerProfile getCustomerById(Long id) {
-        return repository.findById(id)
-                .orElseThrow(() -> new NoSuchElementException("Customer not found"));
+        Optional<CustomerProfile> customer = repository.findById(id);
+        return customer.orElse(null);
     }
 
     @Override
     public CustomerProfile getCustomerByCustomerId(String customerId) {
-        return repository.findByCustomerId(customerId)
-                .orElseThrow(() -> new NoSuchElementException("Customer not found"));
-    }
-
-    @Override
-    public void updateTier(Long id, String newTier) {
-        CustomerProfile customer = getCustomerById(id);
-        customer.setCurrentTier(newTier);
-        repository.save(customer);
-    }
-
-    @Override
-    public void updateStatus(Long id, boolean active) {
-        CustomerProfile customer = getCustomerById(id);
-        customer.setActive(active);
-        repository.save(customer);
+        Optional<CustomerProfile> customer = repository.findByCustomerId(customerId);
+        return customer.orElse(null);
     }
 
     @Override
     public List<CustomerProfile> getAllCustomers() {
         return repository.findAll();
+    }
+
+    @Override
+    public void updateTier(Long id, String newTier) {
+        Optional<CustomerProfile> optionalCustomer = repository.findById(id);
+        if (optionalCustomer.isPresent()) {
+            CustomerProfile customer = optionalCustomer.get();
+            customer.setCurrentTier(newTier);
+            repository.save(customer);
+        }
+    }
+
+    @Override
+    public void updateStatus(Long id, boolean active) {
+        Optional<CustomerProfile> optionalCustomer = repository.findById(id);
+        if (optionalCustomer.isPresent()) {
+            CustomerProfile customer = optionalCustomer.get();
+            customer.setActive(active);
+            repository.save(customer);
+        }
     }
 }
