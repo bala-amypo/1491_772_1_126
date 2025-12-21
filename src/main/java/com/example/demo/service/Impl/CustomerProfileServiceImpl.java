@@ -1,13 +1,12 @@
 package com.example.demo.service.impl;
 
-import java.util.List;
-import java.util.NoSuchElementException;
-
-import org.springframework.stereotype.Service;
-
 import com.example.demo.entity.CustomerProfile;
 import com.example.demo.repository.CustomerProfileRepository;
 import com.example.demo.service.CustomerProfileService;
+import org.springframework.stereotype.Service;
+
+import java.util.List;
+import java.util.NoSuchElementException;
 
 @Service
 public class CustomerProfileServiceImpl implements CustomerProfileService {
@@ -23,6 +22,14 @@ public class CustomerProfileServiceImpl implements CustomerProfileService {
 
         if (customerProfileRepository.findByCustomerId(customer.getCustomerId()).isPresent()) {
             throw new IllegalArgumentException("Customer ID already exists");
+        }
+
+        if (customerProfileRepository.findByEmail(customer.getEmail()).isPresent()) {
+            throw new IllegalArgumentException("Email already exists");
+        }
+
+        if (customerProfileRepository.findByPhone(customer.getPhone()).isPresent()) {
+            throw new IllegalArgumentException("Phone already exists");
         }
 
         if (customer.getCurrentTier() == null) {
