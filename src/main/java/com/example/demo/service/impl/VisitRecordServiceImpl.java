@@ -3,40 +3,33 @@ package com.example.demo.service.impl;
 import com.example.demo.model.VisitRecord;
 import com.example.demo.repository.VisitRecordRepository;
 import com.example.demo.service.VisitRecordService;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.NoSuchElementException;
 
+@Service
 public class VisitRecordServiceImpl implements VisitRecordService {
 
-    private final VisitRecordRepository visitRecordRepository;
+    private final VisitRecordRepository repository;
 
-    public VisitRecordServiceImpl(VisitRecordRepository visitRecordRepository) {
-        this.visitRecordRepository = visitRecordRepository;
+    public VisitRecordServiceImpl(VisitRecordRepository repository) {
+        this.repository = repository;
     }
 
     @Override
-    public VisitRecord recordVisit(VisitRecord visit) {
-        String channel = visit.getChannel();
-        if (!channel.equals("STORE") && !channel.equals("APP") && !channel.equals("WEB")) {
-            throw new IllegalArgumentException("Invalid channel");
-        }
-        return visitRecordRepository.save(visit);
-    }
-
-    @Override
-    public List<VisitRecord> getVisitsByCustomer(Long customerId) {
-        return visitRecordRepository.findByCustomerId(customerId);
-    }
-
-    @Override
-    public List<VisitRecord> getAllVisits() {
-        return visitRecordRepository.findAll();
+    public VisitRecord createVisit(VisitRecord visit) {
+        return repository.save(visit);
     }
 
     @Override
     public VisitRecord getVisitById(Long id) {
-        return visitRecordRepository.findById(id)
-                .orElseThrow(() -> new NoSuchElementException("Visit record not found"));
+        return repository.findById(id)
+                .orElseThrow(() -> new NoSuchElementException("Visit not found"));
+    }
+
+    @Override
+    public List<VisitRecord> getAllVisits() {
+        return repository.findAll();
     }
 }

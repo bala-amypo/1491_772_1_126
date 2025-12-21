@@ -3,7 +3,6 @@ package com.example.demo.service.impl;
 import com.example.demo.model.TierUpgradeRule;
 import com.example.demo.repository.TierUpgradeRuleRepository;
 import com.example.demo.service.TierUpgradeRuleService;
-
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -12,47 +11,25 @@ import java.util.NoSuchElementException;
 @Service
 public class TierUpgradeRuleServiceImpl implements TierUpgradeRuleService {
 
-    private final TierUpgradeRuleRepository tierUpgradeRuleRepository;
+    private final TierUpgradeRuleRepository repository;
 
-    public TierUpgradeRuleServiceImpl(TierUpgradeRuleRepository tierUpgradeRuleRepository) {
-        this.tierUpgradeRuleRepository = tierUpgradeRuleRepository;
+    public TierUpgradeRuleServiceImpl(TierUpgradeRuleRepository repository) {
+        this.repository = repository;
     }
 
     @Override
     public TierUpgradeRule createRule(TierUpgradeRule rule) {
-        if (rule.getMinSpend() < 0 || rule.getMinVisits() < 0) {
-            throw new IllegalArgumentException("minSpend and minVisits must be >= 0");
-        }
-        return tierUpgradeRuleRepository.save(rule);
+        return repository.save(rule);
     }
 
     @Override
-    public TierUpgradeRule updateRule(Long id, TierUpgradeRule updatedRule) {
-        TierUpgradeRule existingRule = tierUpgradeRuleRepository.findById(id)
-                .orElseThrow(() -> new NoSuchElementException("Rule not found"));
-
-        existingRule.setFromTier(updatedRule.getFromTier());
-        existingRule.setToTier(updatedRule.getToTier());
-        existingRule.setMinSpend(updatedRule.getMinSpend());
-        existingRule.setMinVisits(updatedRule.getMinVisits());
-        existingRule.setActive(updatedRule.isActive());  // ✅ corrected here
-
-        return tierUpgradeRuleRepository.save(existingRule);
-    }
-
-    @Override
-    public List<TierUpgradeRule> getActiveRules() {
-        return tierUpgradeRuleRepository.findByActiveTrue();
-    }
-
-    @Override
-    public TierUpgradeRule getRule(String fromTier, String toTier) {
-        return tierUpgradeRuleRepository.findByFromTierAndToTier(fromTier, toTier)
-                .orElseThrow(() -> new NoSuchElementException("Rule not found"));
+    public TierUpgradeRule getRule(String currentTier, String nextTier) {
+        return repository.findByCurrentTierAndNextTier(currentTier, nextTier)
+                .orElseThrow(() -> new NoSuchElementException("Tier rule not found"));
     }
 
     @Override
     public List<TierUpgradeRule> getAllRules() {
-        return tierUpgradeRuleRepository.findAll();
+        return repository.findAll();
     }
 }
