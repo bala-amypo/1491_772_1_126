@@ -18,6 +18,18 @@ public class TierUpgradeRule {
 
     public TierUpgradeRule() {}
 
+    public TierUpgradeRule(String fromTier, String toTier,
+                           Double minSpend, Integer minVisits, Boolean active) {
+        this.fromTier = fromTier;
+        this.toTier = toTier;
+        this.minSpend = minSpend;
+        this.minVisits = minVisits;
+        this.active = active;
+    }
+
+    // Getters & Setters
+    public Long getId() { return id; }
+
     public String getFromTier() { return fromTier; }
     public void setFromTier(String fromTier) { this.fromTier = fromTier; }
 
