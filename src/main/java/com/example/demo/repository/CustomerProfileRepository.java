@@ -6,8 +6,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import com.example.demo.entity.CustomerProfile;
 
-public interface CustomerProfileRepository
-        extends JpaRepository<CustomerProfile, Long> {
+public interface CustomerProfileRepository extends JpaRepository<CustomerProfile, Long> {
 
     Optional<CustomerProfile> findByCustomerId(String customerId);
 
