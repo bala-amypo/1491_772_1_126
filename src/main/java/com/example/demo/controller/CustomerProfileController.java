@@ -2,6 +2,7 @@ package com.example.demo.controller;
 
 import com.example.demo.model.CustomerProfile;
 import com.example.demo.service.CustomerProfileService;
+
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -26,23 +27,13 @@ public class CustomerProfileController {
         return service.getCustomerById(id);
     }
 
-    @GetMapping("/by-id/{customerId}")
-    public CustomerProfile getByCustomerId(@PathVariable String customerId) {
-        return service.findByCustomerId(customerId);
-    }
-
     @GetMapping
     public List<CustomerProfile> getAllCustomers() {
         return service.getAllCustomers();
     }
 
-    @PutMapping("/{id}/tier")
-    public CustomerProfile updateTier(@PathVariable Long id, @RequestParam String tier) {
-        return service.updateTier(id, tier);
-    }
-
-    @PutMapping("/{id}/status")
-    public CustomerProfile updateStatus(@PathVariable Long id, @RequestParam boolean active) {
-        return service.updateStatus(id, active);
+    @GetMapping("/lookup/{customerId}")
+    public CustomerProfile getCustomerByCustomerId(@PathVariable String customerId) {
+        return service.getCustomerByCustomerId(customerId);
     }
 }
