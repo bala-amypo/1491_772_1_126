@@ -1,49 +1,36 @@
 package com.example.demo.model;
 
-import jakarta.persistence.*;
 import java.time.LocalDate;
 
-@Entity
-@Table(name = "purchase_records")
 public class PurchaseRecord {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
-    @Column(nullable = false)
-    private Long customerId;
-
-    @Column(nullable = false)
-    private Double amount;
-
-    @Column(nullable = false)
+    private CustomerProfile customer;
+    private double amount;
     private LocalDate purchaseDate;
-
-    @Column(nullable = false)
     private String storeLocation;
 
     public PurchaseRecord() {}
 
-    public PurchaseRecord(Long customerId, Double amount, LocalDate purchaseDate, String storeLocation) {
-        if (amount == null || amount <= 0) {
-            throw new IllegalArgumentException("Amount must be positive");
-        }
-        this.customerId = customerId;
+    public PurchaseRecord(CustomerProfile customer, double amount, LocalDate purchaseDate, String storeLocation) {
+        if (amount <= 0) throw new IllegalArgumentException("Amount must be positive");
+        if (customer == null) throw new IllegalArgumentException("Customer cannot be null");
+
+        this.customer = customer;
         this.amount = amount;
         this.purchaseDate = purchaseDate;
         this.storeLocation = storeLocation;
     }
 
-    // Getters & Setters
+    // Getters and Setters
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }
 
-    public Long getCustomerId() { return customerId; }
-    public void setCustomerId(Long customerId) { this.customerId = customerId; }
+    public CustomerProfile getCustomer() { return customer; }
+    public void setCustomer(CustomerProfile customer) { this.customer = customer; }
 
-    public Double getAmount() { return amount; }
-    public void setAmount(Double amount) {
+    public double getAmount() { return amount; }
+    public void setAmount(double amount) {
         if (amount <= 0) throw new IllegalArgumentException("Amount must be positive");
         this.amount = amount;
     }

@@ -1,52 +1,34 @@
 package com.example.demo.model;
 
-import jakarta.persistence.*;
 import java.time.LocalDateTime;
 
-@Entity
-@Table(name = "tier_history_records")
 public class TierHistoryRecord {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
-    @Column(nullable = false)
-    private Long customerId;
-
-    @Column(nullable = false)
+    private CustomerProfile customer;
     private String oldTier;
-
-    @Column(nullable = false)
     private String newTier;
-
-    @Column(nullable = false)
     private String reason;
-
-    @Column(nullable = false)
     private LocalDateTime changedAt;
 
-    public TierHistoryRecord() {}
-
-    public TierHistoryRecord(Long customerId, String oldTier, String newTier, String reason, LocalDateTime changedAt) {
-        this.customerId = customerId;
-        this.oldTier = oldTier;
-        this.newTier = newTier;
-        this.reason = reason;
-        this.changedAt = changedAt;
-    }
-
-    @PrePersist
-    protected void onChange() {
+    public TierHistoryRecord() {
         this.changedAt = LocalDateTime.now();
     }
 
-    // Getters & Setters
+    public TierHistoryRecord(CustomerProfile customer, String oldTier, String newTier, String reason) {
+        this.customer = customer;
+        this.oldTier = oldTier;
+        this.newTier = newTier;
+        this.reason = reason;
+        this.changedAt = LocalDateTime.now();
+    }
+
+    // Getters and Setters
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }
 
-    public Long getCustomerId() { return customerId; }
-    public void setCustomerId(Long customerId) { this.customerId = customerId; }
+    public CustomerProfile getCustomer() { return customer; }
+    public void setCustomer(CustomerProfile customer) { this.customer = customer; }
 
     public String getOldTier() { return oldTier; }
     public void setOldTier(String oldTier) { this.oldTier = oldTier; }
@@ -58,4 +40,5 @@ public class TierHistoryRecord {
     public void setReason(String reason) { this.reason = reason; }
 
     public LocalDateTime getChangedAt() { return changedAt; }
+    public void setChangedAt(LocalDateTime changedAt) { this.changedAt = changedAt; }
 }

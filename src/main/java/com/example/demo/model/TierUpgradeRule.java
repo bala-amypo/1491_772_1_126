@@ -1,46 +1,26 @@
 package com.example.demo.model;
 
-import jakarta.persistence.*;
-
-@Entity
-@Table(name = "tier_upgrade_rules", uniqueConstraints = {
-        @UniqueConstraint(columnNames = {"fromTier", "toTier"})
-})
 public class TierUpgradeRule {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
-    @Column(nullable = false)
     private String fromTier;
-
-    @Column(nullable = false)
     private String toTier;
+    private double minSpend;
+    private int minVisits;
+    private boolean active;
 
-    @Column(nullable = false)
-    private Double minSpend;
+    public TierUpgradeRule() { this.active = true; }
 
-    @Column(nullable = false)
-    private Integer minVisits;
-
-    @Column(nullable = false)
-    private Boolean active = true;
-
-    public TierUpgradeRule() {}
-
-    public TierUpgradeRule(String fromTier, String toTier, Double minSpend, Integer minVisits, Boolean active) {
-        if (minSpend < 0 || minVisits < 0) {
-            throw new IllegalArgumentException("minSpend and minVisits must be >= 0");
-        }
+    public TierUpgradeRule(String fromTier, String toTier, double minSpend, int minVisits, boolean active) {
+        if (minSpend < 0 || minVisits < 0) throw new IllegalArgumentException("minSpend and minVisits must be >= 0");
         this.fromTier = fromTier;
         this.toTier = toTier;
         this.minSpend = minSpend;
         this.minVisits = minVisits;
-        this.active = active != null ? active : true;
+        this.active = active;
     }
 
-    // Getters & Setters
+    // Getters and Setters
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }
 
@@ -50,18 +30,18 @@ public class TierUpgradeRule {
     public String getToTier() { return toTier; }
     public void setToTier(String toTier) { this.toTier = toTier; }
 
-    public Double getMinSpend() { return minSpend; }
-    public void setMinSpend(Double minSpend) {
+    public double getMinSpend() { return minSpend; }
+    public void setMinSpend(double minSpend) {
         if (minSpend < 0) throw new IllegalArgumentException("minSpend must be >= 0");
         this.minSpend = minSpend;
     }
 
-    public Integer getMinVisits() { return minVisits; }
-    public void setMinVisits(Integer minVisits) {
+    public int getMinVisits() { return minVisits; }
+    public void setMinVisits(int minVisits) {
         if (minVisits < 0) throw new IllegalArgumentException("minVisits must be >= 0");
         this.minVisits = minVisits;
     }
 
-    public Boolean getActive() { return active; }
-    public void setActive(Boolean active) { this.active = active; }
+    public boolean isActive() { return active; }
+    public void setActive(boolean active) { this.active = active; }
 }
