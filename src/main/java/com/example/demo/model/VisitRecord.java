@@ -15,8 +15,11 @@ public class VisitRecord {
     private LocalDate visitDate;
     private String channel;
 
-    public VisitRecord() {
-    }
+    @ManyToOne
+    @JoinColumn(name = "customer_id", insertable = false, updatable = false)
+    private CustomerProfile customer;
+
+    public VisitRecord() {}
 
     public VisitRecord(Long customerId, LocalDate visitDate, String channel) {
         this.customerId = customerId;
@@ -24,16 +27,14 @@ public class VisitRecord {
         this.channel = channel;
     }
 
-    // Getters and Setters
+    public void setCustomer(CustomerProfile customer) {
+        this.customer = customer;
+        this.customerId = customer.getId();
+    }
+
+    public CustomerProfile getCustomer() { return customer; }
+
+    // getters
     public Long getId() { return id; }
-    public void setId(Long id) { this.id = id; }
-
-    public Long getCustomerId() { return customerId; }
-    public void setCustomerId(Long customerId) { this.customerId = customerId; }
-
-    public LocalDate getVisitDate() { return visitDate; }
-    public void setVisitDate(LocalDate visitDate) { this.visitDate = visitDate; }
-
     public String getChannel() { return channel; }
-    public void setChannel(String channel) { this.channel = channel; }
 }

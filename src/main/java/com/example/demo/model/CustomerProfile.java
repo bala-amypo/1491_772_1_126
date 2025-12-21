@@ -23,16 +23,11 @@ public class CustomerProfile {
     private String phone;
 
     private String currentTier;
-
     private Boolean active;
-
     private LocalDateTime createdAt;
 
-    // No-arg constructor
-    public CustomerProfile() {
-    }
+    public CustomerProfile() {}
 
-    // Parameterized constructor
     public CustomerProfile(String customerId, String fullName, String email,
                            String phone, String currentTier, Boolean active,
                            LocalDateTime createdAt) {
@@ -46,17 +41,13 @@ public class CustomerProfile {
     }
 
     @PrePersist
-    public void prePersist() {
+    public void onCreate() {
         this.createdAt = LocalDateTime.now();
-        if (this.currentTier == null) {
-            this.currentTier = "BRONZE";
-        }
-        if (this.active == null) {
-            this.active = true;
-        }
+        if (currentTier == null) currentTier = "BRONZE";
+        if (active == null) active = true;
     }
 
-    // Getters and Setters
+    // getters & setters
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }
 
@@ -78,6 +69,7 @@ public class CustomerProfile {
     public Boolean getActive() { return active; }
     public void setActive(Boolean active) { this.active = active; }
 
+    public boolean isActive() { return Boolean.TRUE.equals(active); }
+
     public LocalDateTime getCreatedAt() { return createdAt; }
-    public void setCreatedAt(LocalDateTime createdAt) { this.createdAt = createdAt; }
 }
