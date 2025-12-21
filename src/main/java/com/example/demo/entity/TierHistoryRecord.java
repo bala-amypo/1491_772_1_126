@@ -11,17 +11,10 @@ public class TierHistoryRecord {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false)
     private Long customerId;
-
-    @Column(nullable = false)
     private String oldTier;
-
-    @Column(nullable = false)
     private String newTier;
-
     private String reason;
-
     private LocalDateTime changedAt;
 
     public TierHistoryRecord() {

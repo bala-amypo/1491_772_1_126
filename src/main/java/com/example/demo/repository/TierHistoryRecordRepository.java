@@ -12,7 +12,5 @@ public interface TierHistoryRecordRepository
     List<TierHistoryRecord> findByCustomerId(Long customerId);
 
     List<TierHistoryRecord> findByChangedAtBetween(
-            LocalDateTime start,
-            LocalDateTime end
-    );
+            LocalDateTime start, LocalDateTime end);
 }

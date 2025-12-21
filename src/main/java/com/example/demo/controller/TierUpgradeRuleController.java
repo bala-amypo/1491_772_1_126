@@ -1,11 +1,10 @@
 package com.example.demo.controller;
 
-import java.util.List;
-
-import org.springframework.web.bind.annotation.*;
-
 import com.example.demo.entity.TierUpgradeRule;
 import com.example.demo.service.TierUpgradeRuleService;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/tier-rules")
@@ -23,26 +22,24 @@ public class TierUpgradeRuleController {
     }
 
     @PutMapping("/{id}")
-    public TierUpgradeRule update(
-            @PathVariable Long id,
-            @RequestBody TierUpgradeRule rule) {
+    public TierUpgradeRule update(@PathVariable Long id,
+                                  @RequestBody TierUpgradeRule rule) {
         return service.updateRule(id, rule);
     }
 
     @GetMapping("/active")
-    public List<TierUpgradeRule> getActive() {
+    public List<TierUpgradeRule> activeRules() {
         return service.getActiveRules();
     }
 
-    @GetMapping("/lookup")
-    public TierUpgradeRule lookup(
-            @RequestParam String fromTier,
-            @RequestParam String toTier) {
-        return service.getRule(fromTier, toTier);
+    @GetMapping
+    public List<TierUpgradeRule> allRules() {
+        return service.getAllRules();
     }
 
-    @GetMapping
-    public List<TierUpgradeRule> getAll() {
-        return service.getAllRules();
+    @GetMapping("/lookup")
+    public TierUpgradeRule lookup(@RequestParam String fromTier,
+                                  @RequestParam String toTier) {
+        return service.getRule(fromTier, toTier);
     }
 }
