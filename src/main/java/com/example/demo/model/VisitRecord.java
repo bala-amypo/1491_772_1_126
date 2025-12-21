@@ -11,29 +11,24 @@ public class VisitRecord {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private LocalDateTime visitDate = LocalDateTime.now();
-
     @ManyToOne
-    @JoinColumn(name = "customer_id")
+    @JoinColumn(name = "customer_id", nullable = false)
     private CustomerProfile customer;
 
-    // No-arg constructor
+    private LocalDateTime visitDate;
+
     public VisitRecord() {}
 
-    // All-args constructor
-    public VisitRecord(Long id, LocalDateTime visitDate, CustomerProfile customer) {
-        this.id = id;
-        this.visitDate = visitDate;
+    public VisitRecord(CustomerProfile customer, LocalDateTime visitDate) {
         this.customer = customer;
+        this.visitDate = visitDate;
     }
 
-    // Getters and Setters
+    // Getters & Setters
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }
-
-    public LocalDateTime getVisitDate() { return visitDate; }
-    public void setVisitDate(LocalDateTime visitDate) { this.visitDate = visitDate; }
-
     public CustomerProfile getCustomer() { return customer; }
     public void setCustomer(CustomerProfile customer) { this.customer = customer; }
+    public LocalDateTime getVisitDate() { return visitDate; }
+    public void setVisitDate(LocalDateTime visitDate) { this.visitDate = visitDate; }
 }

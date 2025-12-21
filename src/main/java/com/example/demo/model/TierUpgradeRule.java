@@ -12,23 +12,23 @@ public class TierUpgradeRule {
 
     private String currentTier;
     private String nextTier;
-    private boolean active;
 
     private int pointsRequired;
     private int visitsRequired;
 
-    public TierUpgradeRule() { }
+    private boolean active;
 
-    public TierUpgradeRule(String currentTier, String nextTier, boolean active, int pointsRequired, int visitsRequired) {
+    public TierUpgradeRule() {}
+
+    public TierUpgradeRule(String currentTier, String nextTier, int pointsRequired, int visitsRequired, boolean active) {
         this.currentTier = currentTier;
         this.nextTier = nextTier;
-        this.active = active;
         this.pointsRequired = pointsRequired;
         this.visitsRequired = visitsRequired;
+        this.active = active;
     }
 
-    // Getters and Setters
-
+    // Getters & Setters
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }
 
@@ -38,12 +38,12 @@ public class TierUpgradeRule {
     public String getNextTier() { return nextTier; }
     public void setNextTier(String nextTier) { this.nextTier = nextTier; }
 
-    public boolean isActive() { return active; }
-    public void setActive(boolean active) { this.active = active; }
-
     public int getPointsRequired() { return pointsRequired; }
     public void setPointsRequired(int pointsRequired) { this.pointsRequired = pointsRequired; }
 
     public int getVisitsRequired() { return visitsRequired; }
     public void setVisitsRequired(int visitsRequired) { this.visitsRequired = visitsRequired; }
+
+    public boolean isActive() { return active; }
+    public void setActive(boolean active) { this.active = active; }
 }

@@ -6,7 +6,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/rules")
@@ -25,6 +24,11 @@ public class TierUpgradeRuleController {
         return service.updateRule(id, rule);
     }
 
+    @DeleteMapping("/{id}")
+    public void deleteRule(@PathVariable Long id) {
+        service.deleteRule(id);
+    }
+
     @GetMapping
     public List<TierUpgradeRule> getAllRules() {
         return service.getAllRules();
@@ -33,15 +37,5 @@ public class TierUpgradeRuleController {
     @GetMapping("/active")
     public List<TierUpgradeRule> getActiveRules() {
         return service.getActiveRules();
-    }
-
-    @GetMapping("/rule")
-    public Optional<TierUpgradeRule> getRule(@RequestParam String currentTier, @RequestParam String nextTier) {
-        return service.getRule(currentTier, nextTier);
-    }
-
-    @DeleteMapping("/{id}")
-    public void deleteRule(@PathVariable Long id) {
-        service.deleteRule(id);
     }
 }

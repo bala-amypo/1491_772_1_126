@@ -1,7 +1,9 @@
 package com.example.demo.controller;
 
 import com.example.demo.model.PurchaseRecord;
+import com.example.demo.model.CustomerProfile;
 import com.example.demo.service.PurchaseRecordService;
+import com.example.demo.service.CustomerProfileService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -14,13 +16,21 @@ public class PurchaseRecordController {
     @Autowired
     private PurchaseRecordService service;
 
-    @PostMapping
-    public PurchaseRecord recordPurchase(@RequestBody PurchaseRecord purchase) {
+    @Autowired
+    private CustomerProfileService customerService;
+
+    @PostMapping("/{customerId}")
+    public PurchaseRecord recordPurchase(@PathVariable String customerId, @RequestBody PurchaseRecord purchase) {
+        CustomerProfile customer = customerService.getCustomerByCustomerId(customerId)
+                .orElseThrow(() -> new RuntimeException("Customer not found"));
+        purchase.setCustomer(customer);
         return service.recordPurchase(purchase);
     }
 
-    @GetMapping("/customer/{customerId}")
-    public List<PurchaseRecord> getPurchasesByCustomer(@PathVariable Long customerId) {
-        return service.getPurchasesByCustomer(customerId);
+    @GetMapping("/{customerId}")
+    public List<PurchaseRecord> getPurchasesByCustomer(@PathVariable String customerId) {
+        CustomerProfile customer = customerService.getCustomerByCustomerId(customerId)
+                .orElseThrow(() -> new RuntimeException("Customer not found"));
+        return service.getPurchasesByCustomer(customer);
     }
 }

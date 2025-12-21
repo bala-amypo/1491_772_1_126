@@ -21,14 +21,20 @@ public class TierUpgradeRuleServiceImpl implements TierUpgradeRuleService {
     }
 
     @Override
-    public TierUpgradeRule updateRule(Long id, TierUpgradeRule updatedRule) {
-        TierUpgradeRule rule = repository.findById(id).orElseThrow();
-        rule.setCurrentTier(updatedRule.getCurrentTier());
-        rule.setNextTier(updatedRule.getNextTier());
-        rule.setPointsRequired(updatedRule.getPointsRequired());
-        rule.setVisitsRequired(updatedRule.getVisitsRequired());
-        rule.setActive(updatedRule.isActive());
-        return repository.save(rule);
+    public TierUpgradeRule updateRule(Long id, TierUpgradeRule rule) {
+        TierUpgradeRule existing = repository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Rule not found"));
+        existing.setCurrentTier(rule.getCurrentTier());
+        existing.setNextTier(rule.getNextTier());
+        existing.setPointsRequired(rule.getPointsRequired());
+        existing.setVisitsRequired(rule.getVisitsRequired());
+        existing.setActive(rule.isActive());
+        return repository.save(existing);
+    }
+
+    @Override
+    public void deleteRule(Long id) {
+        repository.deleteById(id);
     }
 
     @Override
@@ -42,12 +48,7 @@ public class TierUpgradeRuleServiceImpl implements TierUpgradeRuleService {
     }
 
     @Override
-    public Optional<TierUpgradeRule> getRule(String currentTier, String nextTier) {
+    public Optional<TierUpgradeRule> getRuleByTiers(String currentTier, String nextTier) {
         return repository.findByCurrentTierAndNextTier(currentTier, nextTier);
-    }
-
-    @Override
-    public void deleteRule(Long id) {
-        repository.deleteById(id);
     }
 }
