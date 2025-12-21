@@ -1,6 +1,7 @@
 package com.example.demo.controller;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 
 import org.springframework.web.bind.annotation.*;
 
@@ -17,27 +18,23 @@ public class PurchaseRecordController {
         this.purchaseService = purchaseService;
     }
 
-    // Record purchase
     @PostMapping
-    public PurchaseRecord recordPurchase(
-            @RequestBody PurchaseRecord purchase) {
+    public PurchaseRecord recordPurchase(@RequestBody PurchaseRecord purchase) {
         return purchaseService.recordPurchase(purchase);
     }
 
-    // Get purchase by id
     @GetMapping("/{id}")
     public PurchaseRecord getPurchaseById(@PathVariable Long id) {
-        return purchaseService.getPurchaseById(id);
+        return purchaseService.getPurchaseById(id)
+                .orElseThrow(() -> new NoSuchElementException("Purchase record not found"));
     }
 
-    // Get purchases by customer
     @GetMapping("/customer/{customerId}")
     public List<PurchaseRecord> getPurchasesByCustomer(
             @PathVariable Long customerId) {
         return purchaseService.getPurchasesByCustomer(customerId);
     }
 
-    // Get all purchases
     @GetMapping
     public List<PurchaseRecord> getAllPurchases() {
         return purchaseService.getAllPurchases();

@@ -1,6 +1,7 @@
 package com.example.demo.controller;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 
 import org.springframework.web.bind.annotation.*;
 
@@ -17,13 +18,11 @@ public class TierUpgradeRuleController {
         this.ruleService = ruleService;
     }
 
-    // Create rule
     @PostMapping
     public TierUpgradeRule createRule(@RequestBody TierUpgradeRule rule) {
         return ruleService.createRule(rule);
     }
 
-    // Update rule
     @PutMapping("/{id}")
     public TierUpgradeRule updateRule(
             @PathVariable Long id,
@@ -31,21 +30,19 @@ public class TierUpgradeRuleController {
         return ruleService.updateRule(id, rule);
     }
 
-    // Get rule by fromTier & toTier
     @GetMapping("/lookup")
     public TierUpgradeRule getRule(
             @RequestParam String fromTier,
             @RequestParam String toTier) {
-        return ruleService.getRule(fromTier, toTier);
+        return ruleService.getRule(fromTier, toTier)
+                .orElseThrow(() -> new NoSuchElementException("Rule not found"));
     }
 
-    // Get active rules
     @GetMapping("/active")
     public List<TierUpgradeRule> getActiveRules() {
         return ruleService.getActiveRules();
     }
 
-    // Get all rules
     @GetMapping
     public List<TierUpgradeRule> getAllRules() {
         return ruleService.getAllRules();

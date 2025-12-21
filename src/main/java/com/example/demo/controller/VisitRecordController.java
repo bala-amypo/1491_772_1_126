@@ -1,6 +1,7 @@
 package com.example.demo.controller;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 
 import org.springframework.web.bind.annotation.*;
 
@@ -17,26 +18,23 @@ public class VisitRecordController {
         this.visitService = visitService;
     }
 
-    // Record visit
     @PostMapping
     public VisitRecord recordVisit(@RequestBody VisitRecord visit) {
         return visitService.recordVisit(visit);
     }
 
-    // Get visit by id
     @GetMapping("/{id}")
     public VisitRecord getVisitById(@PathVariable Long id) {
-        return visitService.getVisitById(id);
+        return visitService.getVisitById(id)
+                .orElseThrow(() -> new NoSuchElementException("Visit record not found"));
     }
 
-    // Get visits by customer
     @GetMapping("/customer/{customerId}")
     public List<VisitRecord> getVisitsByCustomer(
             @PathVariable Long customerId) {
         return visitService.getVisitsByCustomer(customerId);
     }
 
-    // Get all visits
     @GetMapping
     public List<VisitRecord> getAllVisits() {
         return visitService.getAllVisits();

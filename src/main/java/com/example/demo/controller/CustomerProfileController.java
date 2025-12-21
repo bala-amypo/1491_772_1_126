@@ -1,6 +1,7 @@
 package com.example.demo.controller;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 
 import org.springframework.web.bind.annotation.*;
 
@@ -17,32 +18,27 @@ public class CustomerProfileController {
         this.customerService = customerService;
     }
 
-    // Create customer
     @PostMapping
     public CustomerProfile createCustomer(@RequestBody CustomerProfile customer) {
         return customerService.createCustomer(customer);
     }
 
-    // Get customer by DB id
     @GetMapping("/{id}")
     public CustomerProfile getCustomerById(@PathVariable Long id) {
         return customerService.getCustomerById(id);
     }
 
-    // Get customer by customerId
     @GetMapping("/lookup/{customerId}")
-    public CustomerProfile getCustomerByCustomerId(
-            @PathVariable String customerId) {
-        return customerService.findByCustomerId(customerId);
+    public CustomerProfile getCustomerByCustomerId(@PathVariable String customerId) {
+        return customerService.findByCustomerId(customerId)
+                .orElseThrow(() -> new NoSuchElementException("Customer not found"));
     }
 
-    // Get all customers
     @GetMapping
     public List<CustomerProfile> getAllCustomers() {
         return customerService.getAllCustomers();
     }
 
-    // Update tier
     @PutMapping("/{id}/tier")
     public CustomerProfile updateTier(
             @PathVariable Long id,
@@ -50,7 +46,6 @@ public class CustomerProfileController {
         return customerService.updateTier(id, newTier);
     }
 
-    // Update active status
     @PutMapping("/{id}/status")
     public CustomerProfile updateStatus(
             @PathVariable Long id,
