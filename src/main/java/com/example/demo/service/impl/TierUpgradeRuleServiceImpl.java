@@ -2,6 +2,7 @@ package com.example.demo.service.impl;
 
 import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 
@@ -38,9 +39,8 @@ public class TierUpgradeRuleServiceImpl implements TierUpgradeRuleService {
     }
 
     @Override
-    public TierUpgradeRule getRule(String fromTier, String toTier) {
-        return repo.findByFromTierAndToTier(fromTier, toTier)
-                .orElseThrow(() -> new NoSuchElementException("Rule not found"));
+    public Optional<TierUpgradeRule> getRule(String fromTier, String toTier) {
+        return repo.findByFromTierAndToTier(fromTier, toTier);
     }
 
     @Override

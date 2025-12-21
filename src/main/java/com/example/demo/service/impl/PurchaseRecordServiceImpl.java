@@ -1,7 +1,7 @@
 package com.example.demo.service.impl;
 
 import java.util.List;
-import java.util.NoSuchElementException;
+import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 
@@ -27,9 +27,8 @@ public class PurchaseRecordServiceImpl implements PurchaseRecordService {
     }
 
     @Override
-    public PurchaseRecord getPurchaseById(Long id) {
-        return repo.findById(id)
-                .orElseThrow(() -> new NoSuchElementException("Purchase record not found"));
+    public Optional<PurchaseRecord> getPurchaseById(Long id) {
+        return repo.findById(id);
     }
 
     @Override

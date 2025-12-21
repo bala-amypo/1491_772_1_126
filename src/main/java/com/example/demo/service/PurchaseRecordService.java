@@ -3,19 +3,15 @@ package com.example.demo.service;
 import java.util.List;
 import java.util.Optional;
 
-import com.example.demo.model.CustomerProfile;
+import com.example.demo.model.PurchaseRecord;
 
-public interface CustomerProfileService {
+public interface PurchaseRecordService {
 
-    CustomerProfile createCustomer(CustomerProfile customer);
+    PurchaseRecord recordPurchase(PurchaseRecord purchase);
 
-    CustomerProfile getCustomerById(Long id);
+    Optional<PurchaseRecord> getPurchaseById(Long id);
 
-    Optional<CustomerProfile> findByCustomerId(String customerId);
+    List<PurchaseRecord> getPurchasesByCustomer(Long customerId);
 
-    List<CustomerProfile> getAllCustomers();
-
-    CustomerProfile updateTier(Long id, String newTier);
-
-    CustomerProfile updateStatus(Long id, boolean active);
+    List<PurchaseRecord> getAllPurchases();
 }

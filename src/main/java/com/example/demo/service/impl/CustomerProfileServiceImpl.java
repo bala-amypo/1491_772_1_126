@@ -2,6 +2,7 @@ package com.example.demo.service.impl;
 
 import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 
@@ -33,9 +34,8 @@ public class CustomerProfileServiceImpl implements CustomerProfileService {
     }
 
     @Override
-    public CustomerProfile findByCustomerId(String customerId) {
-        return repo.findByCustomerId(customerId)
-                .orElseThrow(() -> new NoSuchElementException("Customer not found"));
+    public Optional<CustomerProfile> findByCustomerId(String customerId) {
+        return repo.findByCustomerId(customerId);
     }
 
     @Override
@@ -45,15 +45,15 @@ public class CustomerProfileServiceImpl implements CustomerProfileService {
 
     @Override
     public CustomerProfile updateTier(Long id, String newTier) {
-        CustomerProfile customer = getCustomerById(id);
-        customer.setCurrentTier(newTier);
-        return repo.save(customer);
+        CustomerProfile c = getCustomerById(id);
+        c.setCurrentTier(newTier);
+        return repo.save(c);
     }
 
     @Override
     public CustomerProfile updateStatus(Long id, boolean active) {
-        CustomerProfile customer = getCustomerById(id);
-        customer.setActive(active);
-        return repo.save(customer);
+        CustomerProfile c = getCustomerById(id);
+        c.setActive(active);
+        return repo.save(c);
     }
 }

@@ -1,6 +1,7 @@
 package com.example.demo.service;
 
 import java.util.List;
+import java.util.Optional;
 
 import com.example.demo.model.TierUpgradeRule;
 
@@ -10,7 +11,7 @@ public interface TierUpgradeRuleService {
 
     TierUpgradeRule updateRule(Long id, TierUpgradeRule rule);
 
-    TierUpgradeRule getRule(String fromTier, String toTier);
+    Optional<TierUpgradeRule> getRule(String fromTier, String toTier);
 
     List<TierUpgradeRule> getActiveRules();
 

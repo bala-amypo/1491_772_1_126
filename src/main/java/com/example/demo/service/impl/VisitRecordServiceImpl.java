@@ -1,7 +1,7 @@
 package com.example.demo.service.impl;
 
 import java.util.List;
-import java.util.NoSuchElementException;
+import java.util.Optional;
 import java.util.Set;
 
 import org.springframework.stereotype.Service;
@@ -31,9 +31,8 @@ public class VisitRecordServiceImpl implements VisitRecordService {
     }
 
     @Override
-    public VisitRecord getVisitById(Long id) {
-        return repo.findById(id)
-                .orElseThrow(() -> new NoSuchElementException("Visit record not found"));
+    public Optional<VisitRecord> getVisitById(Long id) {
+        return repo.findById(id);
     }
 
     @Override
