@@ -4,9 +4,12 @@ import com.example.demo.model.TierUpgradeRule;
 import com.example.demo.repository.TierUpgradeRuleRepository;
 import com.example.demo.service.TierUpgradeRuleService;
 
+import org.springframework.stereotype.Service;
+
 import java.util.List;
 import java.util.NoSuchElementException;
 
+@Service
 public class TierUpgradeRuleServiceImpl implements TierUpgradeRuleService {
 
     private final TierUpgradeRuleRepository tierUpgradeRuleRepository;
@@ -17,8 +20,9 @@ public class TierUpgradeRuleServiceImpl implements TierUpgradeRuleService {
 
     @Override
     public TierUpgradeRule createRule(TierUpgradeRule rule) {
-        if (rule.getMinSpend() < 0) throw new IllegalArgumentException("minSpend must be >= 0");
-        if (rule.getMinVisits() < 0) throw new IllegalArgumentException("minVisits must be >= 0");
+        if (rule.getMinSpend() < 0 || rule.getMinVisits() < 0) {
+            throw new IllegalArgumentException("minSpend and minVisits must be >= 0");
+        }
         return tierUpgradeRuleRepository.save(rule);
     }
 
@@ -31,7 +35,7 @@ public class TierUpgradeRuleServiceImpl implements TierUpgradeRuleService {
         existingRule.setToTier(updatedRule.getToTier());
         existingRule.setMinSpend(updatedRule.getMinSpend());
         existingRule.setMinVisits(updatedRule.getMinVisits());
-        existingRule.setActive(updatedRule.getActive());
+        existingRule.setActive(updatedRule.isActive());  // ✅ corrected here
 
         return tierUpgradeRuleRepository.save(existingRule);
     }
