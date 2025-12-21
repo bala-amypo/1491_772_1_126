@@ -10,40 +10,40 @@ public class TierUpgradeRule {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String currentTier;
-    private String nextTier;
+    private String fromTier;
+    private String toTier;
+    private Double minSpend;
+    private Integer minVisits;
+    private Boolean active;
 
-    private int pointsRequired;
-    private int visitsRequired;
+    public TierUpgradeRule() {
+    }
 
-    private boolean active;
-
-    public TierUpgradeRule() {}
-
-    public TierUpgradeRule(String currentTier, String nextTier, int pointsRequired, int visitsRequired, boolean active) {
-        this.currentTier = currentTier;
-        this.nextTier = nextTier;
-        this.pointsRequired = pointsRequired;
-        this.visitsRequired = visitsRequired;
+    public TierUpgradeRule(String fromTier, String toTier,
+                           Double minSpend, Integer minVisits, Boolean active) {
+        this.fromTier = fromTier;
+        this.toTier = toTier;
+        this.minSpend = minSpend;
+        this.minVisits = minVisits;
         this.active = active;
     }
 
-    // Getters & Setters
+    // Getters and Setters
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }
 
-    public String getCurrentTier() { return currentTier; }
-    public void setCurrentTier(String currentTier) { this.currentTier = currentTier; }
+    public String getFromTier() { return fromTier; }
+    public void setFromTier(String fromTier) { this.fromTier = fromTier; }
 
-    public String getNextTier() { return nextTier; }
-    public void setNextTier(String nextTier) { this.nextTier = nextTier; }
+    public String getToTier() { return toTier; }
+    public void setToTier(String toTier) { this.toTier = toTier; }
 
-    public int getPointsRequired() { return pointsRequired; }
-    public void setPointsRequired(int pointsRequired) { this.pointsRequired = pointsRequired; }
+    public Double getMinSpend() { return minSpend; }
+    public void setMinSpend(Double minSpend) { this.minSpend = minSpend; }
 
-    public int getVisitsRequired() { return visitsRequired; }
-    public void setVisitsRequired(int visitsRequired) { this.visitsRequired = visitsRequired; }
+    public Integer getMinVisits() { return minVisits; }
+    public void setMinVisits(Integer minVisits) { this.minVisits = minVisits; }
 
-    public boolean isActive() { return active; }
-    public void setActive(boolean active) { this.active = active; }
+    public Boolean getActive() { return active; }
+    public void setActive(Boolean active) { this.active = active; }
 }
