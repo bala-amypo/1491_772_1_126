@@ -5,9 +5,9 @@ import java.util.NoSuchElementException;
 
 import org.springframework.stereotype.Service;
 
-import com.example.demo.model.CustomerProfile;
-import com.example.demo.model.TierHistoryRecord;
-import com.example.demo.model.TierUpgradeRule;
+import com.example.demo.entity.CustomerProfile;
+import com.example.demo.entity.TierHistoryRecord;
+import com.example.demo.entity.TierUpgradeRule;
 import com.example.demo.repository.CustomerProfileRepository;
 import com.example.demo.repository.PurchaseRecordRepository;
 import com.example.demo.repository.TierHistoryRecordRepository;

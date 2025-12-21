@@ -5,7 +5,7 @@ import java.util.NoSuchElementException;
 
 import org.springframework.stereotype.Service;
 
-import com.example.demo.model.TierUpgradeRule;
+import com.example.demo.entity.TierUpgradeRule;
 import com.example.demo.repository.TierUpgradeRuleRepository;
 import com.example.demo.service.TierUpgradeRuleService;
 

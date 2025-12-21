@@ -2,7 +2,7 @@ package com.example.demo.service;
 
 import java.util.List;
 
-import com.example.demo.model.TierHistoryRecord;
+import com.example.demo.entity.TierHistoryRecord;
 
 public interface TierUpgradeEngineService {
 

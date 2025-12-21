@@ -5,7 +5,7 @@ import java.util.NoSuchElementException;
 
 import org.springframework.stereotype.Service;
 
-import com.example.demo.model.PurchaseRecord;
+import com.example.demo.entity.PurchaseRecord;
 import com.example.demo.repository.PurchaseRecordRepository;
 import com.example.demo.service.PurchaseRecordService;
 
