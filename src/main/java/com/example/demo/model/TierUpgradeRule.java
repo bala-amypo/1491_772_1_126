@@ -11,26 +11,24 @@ public class TierUpgradeRule {
     private Long id;
 
     private String currentTier;
-
     private String nextTier;
+    private boolean active;
 
-    private Double minPurchaseAmount;
+    private int pointsRequired;
+    private int visitsRequired;
 
-    private Boolean active = true;
+    public TierUpgradeRule() { }
 
-    // No-arg constructor
-    public TierUpgradeRule() {}
-
-    // All-args constructor
-    public TierUpgradeRule(Long id, String currentTier, String nextTier, Double minPurchaseAmount, Boolean active) {
-        this.id = id;
+    public TierUpgradeRule(String currentTier, String nextTier, boolean active, int pointsRequired, int visitsRequired) {
         this.currentTier = currentTier;
         this.nextTier = nextTier;
-        this.minPurchaseAmount = minPurchaseAmount;
         this.active = active;
+        this.pointsRequired = pointsRequired;
+        this.visitsRequired = visitsRequired;
     }
 
     // Getters and Setters
+
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }
 
@@ -40,9 +38,12 @@ public class TierUpgradeRule {
     public String getNextTier() { return nextTier; }
     public void setNextTier(String nextTier) { this.nextTier = nextTier; }
 
-    public Double getMinPurchaseAmount() { return minPurchaseAmount; }
-    public void setMinPurchaseAmount(Double minPurchaseAmount) { this.minPurchaseAmount = minPurchaseAmount; }
+    public boolean isActive() { return active; }
+    public void setActive(boolean active) { this.active = active; }
 
-    public Boolean getActive() { return active; }
-    public void setActive(Boolean active) { this.active = active; }
+    public int getPointsRequired() { return pointsRequired; }
+    public void setPointsRequired(int pointsRequired) { this.pointsRequired = pointsRequired; }
+
+    public int getVisitsRequired() { return visitsRequired; }
+    public void setVisitsRequired(int visitsRequired) { this.visitsRequired = visitsRequired; }
 }
