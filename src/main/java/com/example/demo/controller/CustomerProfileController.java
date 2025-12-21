@@ -10,34 +10,39 @@ import java.util.List;
 @RequestMapping("/api/customers")
 public class CustomerProfileController {
 
-    private final CustomerProfileService customerProfileService;
+    private final CustomerProfileService service;
 
-    public CustomerProfileController(CustomerProfileService customerProfileService) {
-        this.customerProfileService = customerProfileService;
+    public CustomerProfileController(CustomerProfileService service) {
+        this.service = service;
     }
 
     @PostMapping
     public CustomerProfile createCustomer(@RequestBody CustomerProfile customer) {
-        return customerProfileService.createCustomer(customer);
+        return service.createCustomer(customer);
     }
 
     @GetMapping("/{id}")
-    public CustomerProfile getCustomer(@PathVariable Long id) {
-        return customerProfileService.getCustomerById(id);
+    public CustomerProfile getCustomerById(@PathVariable Long id) {
+        return service.getCustomerById(id);
+    }
+
+    @GetMapping("/by-id/{customerId}")
+    public CustomerProfile getByCustomerId(@PathVariable String customerId) {
+        return service.findByCustomerId(customerId);
     }
 
     @GetMapping
     public List<CustomerProfile> getAllCustomers() {
-        return customerProfileService.getAllCustomers();
+        return service.getAllCustomers();
     }
 
     @PutMapping("/{id}/tier")
-    public CustomerProfile updateTier(@PathVariable Long id, @RequestParam String newTier) {
-        return customerProfileService.updateTier(id, newTier);
+    public CustomerProfile updateTier(@PathVariable Long id, @RequestParam String tier) {
+        return service.updateTier(id, tier);
     }
 
     @PutMapping("/{id}/status")
     public CustomerProfile updateStatus(@PathVariable Long id, @RequestParam boolean active) {
-        return customerProfileService.updateStatus(id, active);
+        return service.updateStatus(id, active);
     }
 }
