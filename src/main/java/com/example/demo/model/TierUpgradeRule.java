@@ -3,79 +3,46 @@ package com.example.demo.model;
 import jakarta.persistence.*;
 
 @Entity
-@Table(name = "tier_upgrade_rules", uniqueConstraints = {
-        @UniqueConstraint(columnNames = {"fromTier", "toTier"})
-})
+@Table(name = "tier_upgrade_rules")
 public class TierUpgradeRule {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String fromTier;
-    private String toTier;
-    private Double minSpend;
-    private Integer minVisits;
+    private String currentTier;
 
-    private boolean active = true;
+    private String nextTier;
 
-    public TierUpgradeRule() {
-    }
+    private Double minPurchaseAmount;
 
-    public TierUpgradeRule(String fromTier, String toTier, Double minSpend, Integer minVisits, Boolean active) {
-        this.fromTier = fromTier;
-        this.toTier = toTier;
-        this.minSpend = minSpend;
-        this.minVisits = minVisits;
-        this.active = active != null ? active : true;
-    }
+    private Boolean active = true;
 
-    // Getters & Setters
-    public Long getId() {
-        return id;
-    }
+    // No-arg constructor
+    public TierUpgradeRule() {}
 
-    public void setId(Long id) {
+    // All-args constructor
+    public TierUpgradeRule(Long id, String currentTier, String nextTier, Double minPurchaseAmount, Boolean active) {
         this.id = id;
-    }
-
-    public String getFromTier() {
-        return fromTier;
-    }
-
-    public void setFromTier(String fromTier) {
-        this.fromTier = fromTier;
-    }
-
-    public String getToTier() {
-        return toTier;
-    }
-
-    public void setToTier(String toTier) {
-        this.toTier = toTier;
-    }
-
-    public Double getMinSpend() {
-        return minSpend;
-    }
-
-    public void setMinSpend(Double minSpend) {
-        this.minSpend = minSpend;
-    }
-
-    public Integer getMinVisits() {
-        return minVisits;
-    }
-
-    public void setMinVisits(Integer minVisits) {
-        this.minVisits = minVisits;
-    }
-
-    public boolean isActive() {
-        return active;
-    }
-
-    public void setActive(boolean active) {
+        this.currentTier = currentTier;
+        this.nextTier = nextTier;
+        this.minPurchaseAmount = minPurchaseAmount;
         this.active = active;
     }
+
+    // Getters and Setters
+    public Long getId() { return id; }
+    public void setId(Long id) { this.id = id; }
+
+    public String getCurrentTier() { return currentTier; }
+    public void setCurrentTier(String currentTier) { this.currentTier = currentTier; }
+
+    public String getNextTier() { return nextTier; }
+    public void setNextTier(String nextTier) { this.nextTier = nextTier; }
+
+    public Double getMinPurchaseAmount() { return minPurchaseAmount; }
+    public void setMinPurchaseAmount(Double minPurchaseAmount) { this.minPurchaseAmount = minPurchaseAmount; }
+
+    public Boolean getActive() { return active; }
+    public void setActive(Boolean active) { this.active = active; }
 }

@@ -1,26 +1,39 @@
 package com.example.demo.model;
 
+import jakarta.persistence.*;
 import java.time.LocalDateTime;
 
+@Entity
+@Table(name = "tier_history_records")
 public class TierHistoryRecord {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @ManyToOne
+    @JoinColumn(name = "customer_id")
     private CustomerProfile customer;
-    private String oldTier;
-    private String newTier;
+
+    private String previousTier;
+
+    private String upgradedTier;
+
     private String reason;
-    private LocalDateTime changedAt;
 
-    public TierHistoryRecord() {
-        this.changedAt = LocalDateTime.now();
-    }
+    private LocalDateTime createdAt = LocalDateTime.now();
 
-    public TierHistoryRecord(CustomerProfile customer, String oldTier, String newTier, String reason) {
+    // No-arg constructor
+    public TierHistoryRecord() {}
+
+    // All-args constructor
+    public TierHistoryRecord(Long id, CustomerProfile customer, String previousTier, String upgradedTier, String reason, LocalDateTime createdAt) {
+        this.id = id;
         this.customer = customer;
-        this.oldTier = oldTier;
-        this.newTier = newTier;
+        this.previousTier = previousTier;
+        this.upgradedTier = upgradedTier;
         this.reason = reason;
-        this.changedAt = LocalDateTime.now();
+        this.createdAt = createdAt;
     }
 
     // Getters and Setters
@@ -30,15 +43,15 @@ public class TierHistoryRecord {
     public CustomerProfile getCustomer() { return customer; }
     public void setCustomer(CustomerProfile customer) { this.customer = customer; }
 
-    public String getOldTier() { return oldTier; }
-    public void setOldTier(String oldTier) { this.oldTier = oldTier; }
+    public String getPreviousTier() { return previousTier; }
+    public void setPreviousTier(String previousTier) { this.previousTier = previousTier; }
 
-    public String getNewTier() { return newTier; }
-    public void setNewTier(String newTier) { this.newTier = newTier; }
+    public String getUpgradedTier() { return upgradedTier; }
+    public void setUpgradedTier(String upgradedTier) { this.upgradedTier = upgradedTier; }
 
     public String getReason() { return reason; }
     public void setReason(String reason) { this.reason = reason; }
 
-    public LocalDateTime getChangedAt() { return changedAt; }
-    public void setChangedAt(LocalDateTime changedAt) { this.changedAt = changedAt; }
+    public LocalDateTime getCreatedAt() { return createdAt; }
+    public void setCreatedAt(LocalDateTime createdAt) { this.createdAt = createdAt; }
 }

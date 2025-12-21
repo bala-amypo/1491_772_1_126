@@ -1,40 +1,39 @@
 package com.example.demo.model;
 
-import java.time.LocalDate;
-import java.util.Arrays;
-import java.util.List;
+import jakarta.persistence.*;
+import java.time.LocalDateTime;
 
+@Entity
+@Table(name = "visit_records")
 public class VisitRecord {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    private LocalDateTime visitDate = LocalDateTime.now();
+
+    @ManyToOne
+    @JoinColumn(name = "customer_id")
     private CustomerProfile customer;
-    private LocalDate visitDate;
-    private String channel;
 
-    private static final List<String> VALID_CHANNELS = Arrays.asList("STORE", "APP", "WEB");
-
+    // No-arg constructor
     public VisitRecord() {}
 
-    public VisitRecord(CustomerProfile customer, LocalDate visitDate, String channel) {
-        if (!VALID_CHANNELS.contains(channel)) throw new IllegalArgumentException("Invalid channel");
-        this.customer = customer;
+    // All-args constructor
+    public VisitRecord(Long id, LocalDateTime visitDate, CustomerProfile customer) {
+        this.id = id;
         this.visitDate = visitDate;
-        this.channel = channel;
+        this.customer = customer;
     }
 
     // Getters and Setters
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }
 
+    public LocalDateTime getVisitDate() { return visitDate; }
+    public void setVisitDate(LocalDateTime visitDate) { this.visitDate = visitDate; }
+
     public CustomerProfile getCustomer() { return customer; }
     public void setCustomer(CustomerProfile customer) { this.customer = customer; }
-
-    public LocalDate getVisitDate() { return visitDate; }
-    public void setVisitDate(LocalDate visitDate) { this.visitDate = visitDate; }
-
-    public String getChannel() { return channel; }
-    public void setChannel(String channel) {
-        if (!VALID_CHANNELS.contains(channel)) throw new IllegalArgumentException("Invalid channel");
-        this.channel = channel;
-    }
 }

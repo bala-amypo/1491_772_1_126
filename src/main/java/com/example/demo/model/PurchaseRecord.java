@@ -1,43 +1,45 @@
 package com.example.demo.model;
 
-import java.time.LocalDate;
+import jakarta.persistence.*;
+import java.time.LocalDateTime;
 
+@Entity
+@Table(name = "purchase_records")
 public class PurchaseRecord {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private CustomerProfile customer;
-    private double amount;
-    private LocalDate purchaseDate;
-    private String storeLocation;
 
+    private Double amount;
+
+    private LocalDateTime purchaseDate = LocalDateTime.now();
+
+    @ManyToOne
+    @JoinColumn(name = "customer_id")
+    private CustomerProfile customer;
+
+    // No-arg constructor
     public PurchaseRecord() {}
 
-    public PurchaseRecord(CustomerProfile customer, double amount, LocalDate purchaseDate, String storeLocation) {
-        if (amount <= 0) throw new IllegalArgumentException("Amount must be positive");
-        if (customer == null) throw new IllegalArgumentException("Customer cannot be null");
-
-        this.customer = customer;
+    // All-args constructor
+    public PurchaseRecord(Long id, Double amount, LocalDateTime purchaseDate, CustomerProfile customer) {
+        this.id = id;
         this.amount = amount;
         this.purchaseDate = purchaseDate;
-        this.storeLocation = storeLocation;
+        this.customer = customer;
     }
 
     // Getters and Setters
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }
 
+    public Double getAmount() { return amount; }
+    public void setAmount(Double amount) { this.amount = amount; }
+
+    public LocalDateTime getPurchaseDate() { return purchaseDate; }
+    public void setPurchaseDate(LocalDateTime purchaseDate) { this.purchaseDate = purchaseDate; }
+
     public CustomerProfile getCustomer() { return customer; }
     public void setCustomer(CustomerProfile customer) { this.customer = customer; }
-
-    public double getAmount() { return amount; }
-    public void setAmount(double amount) {
-        if (amount <= 0) throw new IllegalArgumentException("Amount must be positive");
-        this.amount = amount;
-    }
-
-    public LocalDate getPurchaseDate() { return purchaseDate; }
-    public void setPurchaseDate(LocalDate purchaseDate) { this.purchaseDate = purchaseDate; }
-
-    public String getStoreLocation() { return storeLocation; }
-    public void setStoreLocation(String storeLocation) { this.storeLocation = storeLocation; }
 }
