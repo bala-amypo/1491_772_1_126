@@ -4,50 +4,37 @@ import java.util.List;
 
 import org.springframework.web.bind.annotation.*;
 
-import com.example.demo.model.TierUpgradeRule;
-import com.example.demo.service.TierUpgradeRuleService;
+import com.example.demo.model.TierHistoryRecord;
+import com.example.demo.service.TierUpgradeEngineService;
 
 @RestController
-@RequestMapping("/tier-rules")
-public class TierUpgradeRuleController {
+@RequestMapping("/tier-engine")
+public class TierUpgradeEngineController {
 
-    private final TierUpgradeRuleService ruleService;
+    private final TierUpgradeEngineService engineService;
 
-    public TierUpgradeRuleController(TierUpgradeRuleService ruleService) {
-        this.ruleService = ruleService;
+    public TierUpgradeEngineController(
+            TierUpgradeEngineService engineService) {
+        this.engineService = engineService;
     }
 
-    // Create rule
-    @PostMapping
-    public TierUpgradeRule createRule(@RequestBody TierUpgradeRule rule) {
-        return ruleService.createRule(rule);
+    // Evaluate and upgrade tier
+    @PostMapping("/evaluate/{customerId}")
+    public TierHistoryRecord evaluateTier(
+            @PathVariable Long customerId) {
+        return engineService.evaluateAndUpgradeTier(customerId);
     }
 
-    // Update rule
-    @PutMapping("/{id}")
-    public TierUpgradeRule updateRule(
-            @PathVariable Long id,
-            @RequestBody TierUpgradeRule rule) {
-        return ruleService.updateRule(id, rule);
+    // Get history by customer
+    @GetMapping("/history/{customerId}")
+    public List<TierHistoryRecord> getHistoryByCustomer(
+            @PathVariable Long customerId) {
+        return engineService.getHistoryByCustomer(customerId);
     }
 
-    // Get rule by fromTier & toTier
-    @GetMapping("/lookup")
-    public TierUpgradeRule getRule(
-            @RequestParam String fromTier,
-            @RequestParam String toTier) {
-        return ruleService.getRule(fromTier, toTier);
-    }
-
-    // Get active rules
-    @GetMapping("/active")
-    public List<TierUpgradeRule> getActiveRules() {
-        return ruleService.getActiveRules();
-    }
-
-    // Get all rules
+    // Get all history
     @GetMapping
-    public List<TierUpgradeRule> getAllRules() {
-        return ruleService.getAllRules();
+    public List<TierHistoryRecord> getAllHistory() {
+        return engineService.getAllHistory();
     }
 }
