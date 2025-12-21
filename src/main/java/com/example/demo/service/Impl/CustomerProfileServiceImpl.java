@@ -5,7 +5,7 @@ import java.util.NoSuchElementException;
 
 import org.springframework.stereotype.Service;
 
-import com.example.demo.entity.CustomerProfile;
+import com.example.demo.model.CustomerProfile;
 import com.example.demo.repository.CustomerProfileRepository;
 import com.example.demo.service.CustomerProfileService;
 

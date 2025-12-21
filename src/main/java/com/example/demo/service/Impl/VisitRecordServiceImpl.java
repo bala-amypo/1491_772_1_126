@@ -5,7 +5,7 @@ import java.util.NoSuchElementException;
 
 import org.springframework.stereotype.Service;
 
-import com.example.demo.entity.VisitRecord;
+import com.example.demo.model.VisitRecord;
 import com.example.demo.repository.VisitRecordRepository;
 import com.example.demo.service.VisitRecordService;
 

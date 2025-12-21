@@ -5,7 +5,7 @@ import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import com.example.demo.entity.TierHistoryRecord;
+import com.example.demo.model.TierHistoryRecord;
 
 public interface TierHistoryRecordRepository
         extends JpaRepository<TierHistoryRecord, Long> {
