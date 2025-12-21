@@ -1,35 +1,17 @@
-package com.example.demo.controller;
+package com.example.demo.repository;
 
+import java.time.LocalDate;
 import java.util.List;
 
-import org.springframework.web.bind.annotation.*;
+import org.springframework.data.jpa.repository.JpaRepository;
 
-import com.example.demo.model.TierHistoryRecord;
-import com.example.demo.service.TierUpgradeEngineService;
+import com.example.demo.model.VisitRecord;
 
-@RestController
-@RequestMapping("/tier-engine")
-public class TierUpgradeEngineController {
+public interface VisitRecordRepository
+        extends JpaRepository<VisitRecord, Long> {
 
-    private final TierUpgradeEngineService engineService;
+    List<VisitRecord> findByCustomerId(Long customerId);
 
-    public TierUpgradeEngineController(TierUpgradeEngineService engineService) {
-        this.engineService = engineService;
-    }
-
-    @PostMapping("/evaluate/{customerId}")
-    public TierHistoryRecord evaluateTier(@PathVariable Long customerId) {
-        return engineService.evaluateAndUpgradeTier(customerId);
-    }
-
-    @GetMapping("/history/{customerId}")
-    public List<TierHistoryRecord> getHistoryByCustomer(
-            @PathVariable Long customerId) {
-        return engineService.getHistoryByCustomer(customerId);
-    }
-
-    @GetMapping
-    public List<TierHistoryRecord> getAllHistory() {
-        return engineService.getAllHistory();
-    }
+    List<VisitRecord> findByVisitDateBetween(
+            LocalDate startDate, LocalDate endDate);
 }
