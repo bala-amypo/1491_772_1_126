@@ -5,9 +5,7 @@ import jakarta.persistence.*;
 @Entity
 @Table(
     name = "tier_upgrade_rules",
-    uniqueConstraints = {
-        @UniqueConstraint(columnNames = {"fromTier", "toTier"})
-    }
+    uniqueConstraints = @UniqueConstraint(columnNames = {"fromTier", "toTier"})
 )
 public class TierUpgradeRule {
 
@@ -25,8 +23,7 @@ public class TierUpgradeRule {
     }
 
     public TierUpgradeRule(String fromTier, String toTier,
-                           Double minSpend, Integer minVisits,
-                           Boolean active) {
+                           Double minSpend, Integer minVisits, Boolean active) {
         this.fromTier = fromTier;
         this.toTier = toTier;
         this.minSpend = minSpend;
@@ -34,24 +31,49 @@ public class TierUpgradeRule {
         this.active = active;
     }
 
-    @PrePersist
-    @PreUpdate
-    public void validate() {
-        if (minSpend < 0 || minVisits < 0) {
-            throw new IllegalArgumentException("minSpend and minVisits must be >= 0");
-        }
+    // Getters and Setters
+
+    public Long getId() {
+        return id;
     }
 
-    // getters & setters
-    public Long getId() { return id; }
-    public String getFromTier() { return fromTier; }
-    public void setFromTier(String fromTier) { this.fromTier = fromTier; }
-    public String getToTier() { return toTier; }
-    public void setToTier(String toTier) { this.toTier = toTier; }
-    public Double getMinSpend() { return minSpend; }
-    public void setMinSpend(Double minSpend) { this.minSpend = minSpend; }
-    public Integer getMinVisits() { return minVisits; }
-    public void setMinVisits(Integer minVisits) { this.minVisits = minVisits; }
-    public Boolean getActive() { return active; }
-    public void setActive(Boolean active) { this.active = active; }
+    public String getFromTier() {
+        return fromTier;
+    }
+
+    public void setFromTier(String fromTier) {
+        this.fromTier = fromTier;
+    }
+
+    public String getToTier() {
+        return toTier;
+    }
+
+    public void setToTier(String toTier) {
+        this.toTier = toTier;
+    }
+
+    public Double getMinSpend() {
+        return minSpend;
+    }
+
+    public void setMinSpend(Double minSpend) {
+        this.minSpend = minSpend;
+    }
+
+    public Integer getMinVisits() {
+        return minVisits;
+    }
+
+    public void setMinVisits(Integer minVisits) {
+        this.minVisits = minVisits;
+    }
+
+    public Boolean getActive() {
+        return active;
+    }
+
+    public void setActive(Boolean active) {
+        this.active = active;
+    }
 }

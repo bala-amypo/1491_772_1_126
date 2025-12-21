@@ -1,8 +1,6 @@
 package com.example.demo.entity;
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotNull;
-
 import java.time.LocalDate;
 
 @Entity
@@ -13,13 +11,12 @@ public class VisitRecord {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotNull
+    @Column(nullable = false)
     private Long customerId;
 
-    @NotNull
     private LocalDate visitDate;
 
-    @NotNull
+    @Column(nullable = false)
     private String channel;
 
     public VisitRecord() {
@@ -32,24 +29,25 @@ public class VisitRecord {
     }
 
     @PrePersist
-    public void validateChannel() {
-        if (!channel.equals("STORE") &&
-            !channel.equals("APP") &&
-            !channel.equals("WEB")) {
-            throw new IllegalArgumentException("Invalid channel");
+    public void onCreate() {
+        if (this.visitDate == null) {
+            this.visitDate = LocalDate.now();
         }
     }
 
     // getters & setters
+
     public Long getId() { return id; }
-    public void setId(Long id) { this.id = id; }
 
     public Long getCustomerId() { return customerId; }
+
     public void setCustomerId(Long customerId) { this.customerId = customerId; }
 
     public LocalDate getVisitDate() { return visitDate; }
+
     public void setVisitDate(LocalDate visitDate) { this.visitDate = visitDate; }
 
     public String getChannel() { return channel; }
+
     public void setChannel(String channel) { this.channel = channel; }
 }

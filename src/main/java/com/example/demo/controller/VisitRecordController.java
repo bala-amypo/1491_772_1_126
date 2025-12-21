@@ -1,41 +1,38 @@
 package com.example.demo.controller;
 
-import java.util.List;
-
-import jakarta.validation.Valid;
-
-import org.springframework.web.bind.annotation.*;
-
 import com.example.demo.entity.VisitRecord;
 import com.example.demo.service.VisitRecordService;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/visits")
 public class VisitRecordController {
 
-    private final VisitRecordService service;
+    private final VisitRecordService visitRecordService;
 
-    public VisitRecordController(VisitRecordService service) {
-        this.service = service;
+    public VisitRecordController(VisitRecordService visitRecordService) {
+        this.visitRecordService = visitRecordService;
     }
 
     @PostMapping
-    public VisitRecord create(@Valid @RequestBody VisitRecord visit) {
-        return service.recordVisit(visit);
+    public VisitRecord recordVisit(@RequestBody VisitRecord visit) {
+        return visitRecordService.recordVisit(visit);
     }
 
     @GetMapping("/customer/{customerId}")
-    public List<VisitRecord> getByCustomer(@PathVariable Long customerId) {
-        return service.getVisitsByCustomer(customerId);
+    public List<VisitRecord> getVisitsByCustomer(@PathVariable Long customerId) {
+        return visitRecordService.getVisitsByCustomer(customerId);
     }
 
     @GetMapping("/{id}")
-    public VisitRecord getById(@PathVariable Long id) {
-        return service.getVisitById(id);
+    public VisitRecord getVisitById(@PathVariable Long id) {
+        return visitRecordService.getVisitById(id);
     }
 
     @GetMapping
-    public List<VisitRecord> getAll() {
-        return service.getAllVisits();
+    public List<VisitRecord> getAllVisits() {
+        return visitRecordService.getAllVisits();
     }
 }

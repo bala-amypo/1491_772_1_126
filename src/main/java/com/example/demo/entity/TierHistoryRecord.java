@@ -1,7 +1,6 @@
 package com.example.demo.entity;
 
 import jakarta.persistence.*;
-
 import java.time.LocalDateTime;
 
 @Entity
@@ -12,10 +11,13 @@ public class TierHistoryRecord {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(nullable = false)
     private Long customerId;
 
+    @Column(nullable = false)
     private String oldTier;
 
+    @Column(nullable = false)
     private String newTier;
 
     private String reason;
@@ -40,20 +42,45 @@ public class TierHistoryRecord {
         this.changedAt = LocalDateTime.now();
     }
 
-    // getters & setters
-    public Long getId() { return id; }
+    // Getters & Setters
 
-    public Long getCustomerId() { return customerId; }
-    public void setCustomerId(Long customerId) { this.customerId = customerId; }
+    public Long getId() {
+        return id;
+    }
 
-    public String getOldTier() { return oldTier; }
-    public void setOldTier(String oldTier) { this.oldTier = oldTier; }
+    public Long getCustomerId() {
+        return customerId;
+    }
 
-    public String getNewTier() { return newTier; }
-    public void setNewTier(String newTier) { this.newTier = newTier; }
+    public void setCustomerId(Long customerId) {
+        this.customerId = customerId;
+    }
 
-    public String getReason() { return reason; }
-    public void setReason(String reason) { this.reason = reason; }
+    public String getOldTier() {
+        return oldTier;
+    }
 
-    public LocalDateTime getChangedAt() { return changedAt; }
+    public void setOldTier(String oldTier) {
+        this.oldTier = oldTier;
+    }
+
+    public String getNewTier() {
+        return newTier;
+    }
+
+    public void setNewTier(String newTier) {
+        this.newTier = newTier;
+    }
+
+    public String getReason() {
+        return reason;
+    }
+
+    public void setReason(String reason) {
+        this.reason = reason;
+    }
+
+    public LocalDateTime getChangedAt() {
+        return changedAt;
+    }
 }
