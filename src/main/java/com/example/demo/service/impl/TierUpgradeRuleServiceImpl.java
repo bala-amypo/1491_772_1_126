@@ -2,6 +2,7 @@ package com.example.demo.service.impl;
 
 import com.example.demo.model.TierUpgradeRule;
 import com.example.demo.repository.TierUpgradeRuleRepository;
+import com.example.demo.service.TierUpgradeRuleService;
 
 import java.util.List;
 import java.util.NoSuchElementException;
@@ -26,13 +27,11 @@ public class TierUpgradeRuleServiceImpl implements TierUpgradeRuleService {
     public TierUpgradeRule updateRule(Long id, TierUpgradeRule updatedRule) {
         TierUpgradeRule existing = tierUpgradeRuleRepository.findById(id)
                 .orElseThrow(() -> new NoSuchElementException("Rule not found"));
-
         existing.setFromTier(updatedRule.getFromTier());
         existing.setToTier(updatedRule.getToTier());
         existing.setMinSpend(updatedRule.getMinSpend());
         existing.setMinVisits(updatedRule.getMinVisits());
         existing.setActive(updatedRule.getActive());
-
         return tierUpgradeRuleRepository.save(existing);
     }
 

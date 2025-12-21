@@ -2,6 +2,7 @@ package com.example.demo.service.impl;
 
 import com.example.demo.model.*;
 import com.example.demo.repository.*;
+import com.example.demo.service.TierUpgradeEngineService;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -41,14 +42,13 @@ public class TierUpgradeEngineServiceImpl implements TierUpgradeEngineService {
 
         String currentTier = customer.getCurrentTier();
 
-        List<TierUpgradeRule> activeRules = tierUpgradeRuleRepository.findByActiveTrue();
-
-        for (TierUpgradeRule rule : activeRules) {
+        List<TierUpgradeRule> rules = tierUpgradeRuleRepository.findByActiveTrue();
+        for (TierUpgradeRule rule : rules) {
             if (rule.getFromTier().equals(currentTier)
                     && totalSpend >= rule.getMinSpend()
                     && totalVisits >= rule.getMinVisits()) {
 
-                String oldTier = currentTier;
+                String oldTier = customer.getCurrentTier();
                 customer.setCurrentTier(rule.getToTier());
                 customerProfileRepository.save(customer);
 
@@ -56,7 +56,7 @@ public class TierUpgradeEngineServiceImpl implements TierUpgradeEngineService {
                         customerId,
                         oldTier,
                         rule.getToTier(),
-                        "Upgrade based on spend and visits",
+                        "Upgrade based on spend/visit criteria",
                         LocalDateTime.now()
                 );
                 return tierHistoryRecordRepository.save(history);
