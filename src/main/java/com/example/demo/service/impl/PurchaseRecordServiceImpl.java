@@ -9,10 +9,10 @@ import java.util.NoSuchElementException;
 
 public class PurchaseRecordServiceImpl implements PurchaseRecordService {
 
-    private final PurchaseRecordRepository repository;
+    private final PurchaseRecordRepository purchaseRecordRepository;
 
-    public PurchaseRecordServiceImpl(PurchaseRecordRepository repository) {
-        this.repository = repository;
+    public PurchaseRecordServiceImpl(PurchaseRecordRepository purchaseRecordRepository) {
+        this.purchaseRecordRepository = purchaseRecordRepository;
     }
 
     @Override
@@ -20,22 +20,22 @@ public class PurchaseRecordServiceImpl implements PurchaseRecordService {
         if (purchase.getAmount() <= 0) {
             throw new IllegalArgumentException("Amount must be positive");
         }
-        return repository.save(purchase);
+        return purchaseRecordRepository.save(purchase);
     }
 
     @Override
     public List<PurchaseRecord> getPurchasesByCustomer(Long customerId) {
-        return repository.findByCustomerId(customerId);
+        return purchaseRecordRepository.findByCustomerId(customerId);
     }
 
     @Override
     public List<PurchaseRecord> getAllPurchases() {
-        return repository.findAll();
+        return purchaseRecordRepository.findAll();
     }
 
     @Override
     public PurchaseRecord getPurchaseById(Long id) {
-        return repository.findById(id)
+        return purchaseRecordRepository.findById(id)
                 .orElseThrow(() -> new NoSuchElementException("Purchase record not found"));
     }
 }

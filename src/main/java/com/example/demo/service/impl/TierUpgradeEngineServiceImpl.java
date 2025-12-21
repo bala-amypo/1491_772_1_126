@@ -10,51 +10,52 @@ import java.util.NoSuchElementException;
 
 public class TierUpgradeEngineServiceImpl implements TierUpgradeEngineService {
 
-    private final CustomerProfileRepository customerRepo;
-    private final PurchaseRecordRepository purchaseRepo;
-    private final VisitRecordRepository visitRepo;
-    private final TierUpgradeRuleRepository ruleRepo;
-    private final TierHistoryRecordRepository historyRepo;
+    private final CustomerProfileRepository customerProfileRepository;
+    private final PurchaseRecordRepository purchaseRecordRepository;
+    private final VisitRecordRepository visitRecordRepository;
+    private final TierUpgradeRuleRepository tierUpgradeRuleRepository;
+    private final TierHistoryRecordRepository tierHistoryRecordRepository;
 
-    public TierUpgradeEngineServiceImpl(CustomerProfileRepository customerRepo,
-                                        PurchaseRecordRepository purchaseRepo,
-                                        VisitRecordRepository visitRepo,
-                                        TierUpgradeRuleRepository ruleRepo,
-                                        TierHistoryRecordRepository historyRepo) {
-        this.customerRepo = customerRepo;
-        this.purchaseRepo = purchaseRepo;
-        this.visitRepo = visitRepo;
-        this.ruleRepo = ruleRepo;
-        this.historyRepo = historyRepo;
+    public TierUpgradeEngineServiceImpl(
+            CustomerProfileRepository customerProfileRepository,
+            PurchaseRecordRepository purchaseRecordRepository,
+            VisitRecordRepository visitRecordRepository,
+            TierUpgradeRuleRepository tierUpgradeRuleRepository,
+            TierHistoryRecordRepository tierHistoryRecordRepository
+    ) {
+        this.customerProfileRepository = customerProfileRepository;
+        this.purchaseRecordRepository = purchaseRecordRepository;
+        this.visitRecordRepository = visitRecordRepository;
+        this.tierUpgradeRuleRepository = tierUpgradeRuleRepository;
+        this.tierHistoryRecordRepository = tierHistoryRecordRepository;
     }
 
     @Override
     public TierHistoryRecord evaluateAndUpgradeTier(Long customerId) {
-        CustomerProfile customer = customerRepo.findById(customerId)
+        CustomerProfile customer = customerProfileRepository.findById(customerId)
                 .orElseThrow(() -> new NoSuchElementException("Customer not found"));
 
-        double totalSpend = purchaseRepo.findByCustomerId(customerId)
+        double totalSpend = purchaseRecordRepository.findByCustomerId(customerId)
                 .stream().mapToDouble(PurchaseRecord::getAmount).sum();
 
-        long totalVisits = visitRepo.findByCustomerId(customerId).size();
+        int totalVisits = visitRecordRepository.findByCustomerId(customerId).size();
 
         String currentTier = customer.getCurrentTier();
 
-        List<TierUpgradeRule> rules = ruleRepo.findByActiveTrue();
+        List<TierUpgradeRule> rules = tierUpgradeRuleRepository.findByActiveTrue()
+                .stream().filter(r -> r.getFromTier().equals(currentTier)).toList();
 
         for (TierUpgradeRule rule : rules) {
-            if (rule.getFromTier().equals(currentTier)
-                    && totalSpend >= rule.getMinSpend()
-                    && totalVisits >= rule.getMinVisits()) {
+            if (totalSpend >= rule.getMinSpend() && totalVisits >= rule.getMinVisits()) {
+                String oldTier = customer.getCurrentTier();
+                String newTier = rule.getToTier();
+                customer.setCurrentTier(newTier);
+                customerProfileRepository.save(customer);
 
-                String oldTier = currentTier;
-                customer.setCurrentTier(rule.getToTier());
-                customerRepo.save(customer);
-
-                TierHistoryRecord history = new TierHistoryRecord(customerId, oldTier, rule.getToTier(),
-                        "Upgraded based on purchases and visits", LocalDateTime.now());
-
-                return historyRepo.save(history);
+                TierHistoryRecord history = new TierHistoryRecord(customer, oldTier, newTier,
+                        "Upgrade via engine");
+                tierHistoryRecordRepository.save(history);
+                return history;
             }
         }
         return null;
@@ -62,11 +63,11 @@ public class TierUpgradeEngineServiceImpl implements TierUpgradeEngineService {
 
     @Override
     public List<TierHistoryRecord> getHistoryByCustomer(Long customerId) {
-        return historyRepo.findByCustomerId(customerId);
+        return tierHistoryRecordRepository.findByCustomerId(customerId);
     }
 
     @Override
     public List<TierHistoryRecord> getAllHistory() {
-        return historyRepo.findAll();
+        return tierHistoryRecordRepository.findAll();
     }
 }
