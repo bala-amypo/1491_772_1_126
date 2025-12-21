@@ -11,7 +11,7 @@ public class CustomerProfile {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(unique = true, nullable = false)
+    @Column(unique = true)
     private String customerId;
 
     private String fullName;
@@ -24,27 +24,31 @@ public class CustomerProfile {
 
     private String currentTier; // BRONZE, SILVER, GOLD
 
-    private Boolean active = true;
+    private boolean active;
 
-    private LocalDateTime createdAt = LocalDateTime.now();
+    private int points; // total points
+    private int visits; // total visits
 
-    // No-arg constructor
-    public CustomerProfile() {}
+    private LocalDateTime createdAt;
+    private LocalDateTime updatedAt;
 
-    // All-args constructor
-    public CustomerProfile(Long id, String customerId, String fullName, String email, String phone,
-                           String currentTier, Boolean active, LocalDateTime createdAt) {
-        this.id = id;
+    public CustomerProfile() { }
+
+    public CustomerProfile(String customerId, String fullName, String email, String phone, String currentTier, boolean active, int points, int visits) {
         this.customerId = customerId;
         this.fullName = fullName;
         this.email = email;
         this.phone = phone;
         this.currentTier = currentTier;
         this.active = active;
-        this.createdAt = createdAt;
+        this.points = points;
+        this.visits = visits;
+        this.createdAt = LocalDateTime.now();
+        this.updatedAt = LocalDateTime.now();
     }
 
     // Getters and Setters
+
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }
 
@@ -63,9 +67,18 @@ public class CustomerProfile {
     public String getCurrentTier() { return currentTier; }
     public void setCurrentTier(String currentTier) { this.currentTier = currentTier; }
 
-    public Boolean getActive() { return active; }
-    public void setActive(Boolean active) { this.active = active; }
+    public boolean isActive() { return active; }
+    public void setActive(boolean active) { this.active = active; }
+
+    public int getPoints() { return points; }
+    public void setPoints(int points) { this.points = points; }
+
+    public int getVisits() { return visits; }
+    public void setVisits(int visits) { this.visits = visits; }
 
     public LocalDateTime getCreatedAt() { return createdAt; }
     public void setCreatedAt(LocalDateTime createdAt) { this.createdAt = createdAt; }
+
+    public LocalDateTime getUpdatedAt() { return updatedAt; }
+    public void setUpdatedAt(LocalDateTime updatedAt) { this.updatedAt = updatedAt; }
 }
