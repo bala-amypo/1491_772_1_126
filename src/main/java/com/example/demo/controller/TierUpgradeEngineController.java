@@ -2,13 +2,11 @@ package com.example.demo.controller;
 
 import com.example.demo.model.TierHistoryRecord;
 import com.example.demo.service.TierUpgradeEngineService;
-
 import org.springframework.web.bind.annotation.*;
-
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/tier-engine")
+@RequestMapping("/api/tiers")
 public class TierUpgradeEngineController {
 
     private final TierUpgradeEngineService service;
@@ -27,7 +25,7 @@ public class TierUpgradeEngineController {
         return service.getHistoryByCustomer(customerId);
     }
 
-    @GetMapping
+    @GetMapping("/history")
     public List<TierHistoryRecord> getAllHistory() {
         return service.getAllHistory();
     }

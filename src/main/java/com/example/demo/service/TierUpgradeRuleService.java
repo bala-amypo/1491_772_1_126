@@ -4,7 +4,6 @@ import com.example.demo.model.TierUpgradeRule;
 import java.util.List;
 
 public interface TierUpgradeRuleService {
-    TierUpgradeRule createRule(TierUpgradeRule rule);
-    TierUpgradeRule getRule(String currentTier, String nextTier);
-    List<TierUpgradeRule> getAllRules();
+    TierUpgradeRule updateRule(Long id, TierUpgradeRule rule);
+    List<TierUpgradeRule> getActiveRules();
 }

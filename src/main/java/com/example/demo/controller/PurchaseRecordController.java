@@ -2,9 +2,7 @@ package com.example.demo.controller;
 
 import com.example.demo.model.PurchaseRecord;
 import com.example.demo.service.PurchaseRecordService;
-
 import org.springframework.web.bind.annotation.*;
-
 import java.util.List;
 
 @RestController
@@ -22,18 +20,8 @@ public class PurchaseRecordController {
         return service.recordPurchase(purchase);
     }
 
-    @GetMapping("/customer/{customerId}")
-    public List<PurchaseRecord> getPurchasesByCustomer(@PathVariable Long customerId) {
-        return service.getPurchasesByCustomer(customerId);
-    }
-
-    @GetMapping("/{id}")
-    public PurchaseRecord getPurchaseById(@PathVariable Long id) {
-        return service.getPurchaseById(id);
-    }
-
-    @GetMapping
-    public List<PurchaseRecord> getAllPurchases() {
-        return service.getAllPurchases();
+    @GetMapping("/customer/{id}")
+    public List<PurchaseRecord> getPurchasesByCustomer(@PathVariable Long id) {
+        return service.getPurchasesByCustomer(id);
     }
 }

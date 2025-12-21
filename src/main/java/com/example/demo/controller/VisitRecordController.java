@@ -2,9 +2,7 @@ package com.example.demo.controller;
 
 import com.example.demo.model.VisitRecord;
 import com.example.demo.service.VisitRecordService;
-
 import org.springframework.web.bind.annotation.*;
-
 import java.util.List;
 
 @RestController
@@ -22,18 +20,8 @@ public class VisitRecordController {
         return service.recordVisit(visit);
     }
 
-    @GetMapping("/customer/{customerId}")
-    public List<VisitRecord> getVisitsByCustomer(@PathVariable Long customerId) {
-        return service.getVisitsByCustomer(customerId);
-    }
-
-    @GetMapping("/{id}")
-    public VisitRecord getVisitById(@PathVariable Long id) {
-        return service.getVisitById(id);
-    }
-
-    @GetMapping
-    public List<VisitRecord> getAllVisits() {
-        return service.getAllVisits();
+    @GetMapping("/customer/{id}")
+    public List<VisitRecord> getVisitsByCustomer(@PathVariable Long id) {
+        return service.getVisitsByCustomer(id);
     }
 }
