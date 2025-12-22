@@ -1,16 +1,31 @@
 package com.example.demo.model;
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.Table;
+import jakarta.persistence.Id;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Column;
+
 import java.time.LocalDateTime;
 
+@Entity
+@Table(name = "tier_history_record")
 public class TierHistoryRecord {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @Column(name = "customer_id", nullable = false)
     private Long customerId;
+
     private String oldTier;
     private String newTier;
     private String reason;
     private LocalDateTime changedAt;
 
+    // ✅ required by JPA
     public TierHistoryRecord() {}
 
     public TierHistoryRecord(Long customerId,
