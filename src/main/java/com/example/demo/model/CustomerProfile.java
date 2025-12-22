@@ -1,11 +1,25 @@
 package com.example.demo.model;
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.Table;
+import jakarta.persistence.Id;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Column;
+
 import java.time.LocalDateTime;
 
+@Entity
+@Table(name = "customer_profile")
 public class CustomerProfile {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @Column(unique = true, nullable = false)
     private String customerId;
+
     private String fullName;
     private String email;
     private String phone;
@@ -13,6 +27,7 @@ public class CustomerProfile {
     private boolean active;
     private LocalDateTime createdAt;
 
+    // ✅ REQUIRED by JPA
     public CustomerProfile() {}
 
     // ===== getters =====
@@ -25,7 +40,7 @@ public class CustomerProfile {
     public boolean isActive() { return active; }
     public LocalDateTime getCreatedAt() { return createdAt; }
 
-    // ===== setters (USED BY TEST) =====
+    // ===== setters =====
     public void setId(Long id) { this.id = id; }
     public void setCustomerId(String customerId) { this.customerId = customerId; }
     public void setFullName(String fullName) { this.fullName = fullName; }
