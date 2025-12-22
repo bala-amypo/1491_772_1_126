@@ -1,14 +1,31 @@
 package com.example.demo.model;
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.Table;
+import jakarta.persistence.Id;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Column;
+
+@Entity
+@Table(name = "tier_upgrade_rule")
 public class TierUpgradeRule {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @Column(nullable = false)
     private String fromTier;
+
+    @Column(nullable = false)
     private String toTier;
+
     private Double minSpend;
     private Integer minVisits;
     private Boolean active;
 
+    // ✅ REQUIRED by JPA
     public TierUpgradeRule() {}
 
     // ===== setters (USED BY TEST) =====
