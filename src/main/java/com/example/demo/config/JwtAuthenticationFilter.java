@@ -32,7 +32,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
         String path = request.getRequestURI();
 
-        // ✅ DO NOT APPLY JWT FOR AMYPO / ROOT
+        // ✅ IGNORE AMYPO & PUBLIC PATHS
         if (path.equals("/") ||
             path.startsWith("/proxy") ||
             path.startsWith("/swagger") ||

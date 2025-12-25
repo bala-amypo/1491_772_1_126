@@ -11,61 +11,56 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 
 import org.springframework.security.config.http.SessionCreationPolicy;
 
+import com.example.demo.security.JwtUtil;
+
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig {
 
-    private final JwtAuthenticationFilter jwtAuthenticationFilter;
+    // ✅ CREATE JwtUtil BEAN
+    @Bean
+    public JwtUtil jwtUtil() {
+        return new JwtUtil();
+    }
 
-    public SecurityConfig(JwtAuthenticationFilter jwtAuthenticationFilter) {
-        this.jwtAuthenticationFilter = jwtAuthenticationFilter;
+    // ✅ CREATE JwtAuthenticationFilter BEAN
+    @Bean
+    public JwtAuthenticationFilter jwtAuthenticationFilter(JwtUtil jwtUtil) {
+        return new JwtAuthenticationFilter(jwtUtil);
     }
 
     @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+    public SecurityFilterChain securityFilterChain(HttpSecurity http,
+                                                   JwtAuthenticationFilter jwtFilter)
+            throws Exception {
 
         http
-            // REST → disable CSRF
+            // Disable CSRF for REST
             .csrf(csrf -> csrf.disable())
 
-            // ✅ REQUIRED FOR AMYPO (iframe / proxy)
+            // ✅ REQUIRED FOR AMYPO
             .headers(headers -> headers.frameOptions(frame -> frame.disable()))
 
-            // JWT → stateless
+            // Stateless JWT
             .sessionManagement(session ->
                 session.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
             )
 
-            // ✅ ACCESS RULES (THIS FIXES 403)
+            // ✅ ACCESS RULES
             .authorizeHttpRequests(auth -> auth
-                // AmyPo + Root
                 .requestMatchers(
-                    "/",
-                    "/index.html",
-                    "/error",
-                    "/status",
-                    "/proxy/**",
-
-                    // Swagger
-                    "/swagger-ui/**",
-                    "/v3/api-docs/**",
-
-                    // Auth APIs
+                    "/", "/index.html", "/error",
+                    "/status", "/proxy/**",
+                    "/swagger-ui/**", "/v3/api-docs/**",
                     "/auth/**"
                 ).permitAll()
-
-                // 🔒 Secure APIs
                 .requestMatchers("/api/**").authenticated()
-
-                // Everything else allowed
                 .anyRequest().permitAll()
             )
 
-            // JWT filter
-            .addFilterBefore(
-                jwtAuthenticationFilter,
-                UsernamePasswordAuthenticationFilter.class
-            );
+            // ✅ ADD JWT FILTER
+            .addFilterBefore(jwtFilter,
+                UsernamePasswordAuthenticationFilter.class);
 
         return http.build();
     }

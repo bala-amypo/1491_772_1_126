@@ -9,10 +9,9 @@ import java.util.Date;
 public class JwtUtil {
 
     private final String secretKey = "amyposupersecretkey";
-    private final long expirationMs = 3600000; // 1 hour
+    private final long expirationMs = 3600000;
 
     public String generateToken(Long id, String email, String role) {
-
         return Jwts.builder()
                 .claim("id", id)
                 .claim("email", email)
@@ -26,7 +25,6 @@ public class JwtUtil {
     }
 
     public Claims validateToken(String token) {
-
         return Jwts.parser()
                 .setSigningKey(secretKey)
                 .parseClaimsJws(token)
