@@ -41,20 +41,33 @@ public class SecurityConfig {
             JwtAuthenticationFilter jwtFilter) throws Exception {
 
         http
+            // ❌ Disable CSRF (REST API)
             .csrf(csrf -> csrf.disable())
+
+            // ✅ VERY IMPORTANT: ALLOW AMYPO PROXY / IFRAME
+            .headers(headers -> headers
+                .frameOptions(frame -> frame.disable())
+            )
+
+            // ❌ No HTTP session (JWT based)
             .sessionManagement(session ->
-                    session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+                session.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+            )
+
+            // 🔓 Public endpoints
             .authorizeHttpRequests(auth -> auth
                 .requestMatchers(
-                        "/auth/**",
-                        "/swagger-ui/**",
-                        "/v3/api-docs/**",
-                        "/status"
+                    "/auth/**",
+                    "/swagger-ui/**",
+                    "/v3/api-docs/**",
+                    "/status"
                 ).permitAll()
                 .anyRequest().authenticated()
             )
+
+            // 🔐 JWT filter
             .addFilterBefore(jwtFilter,
-                    UsernamePasswordAuthenticationFilter.class);
+                UsernamePasswordAuthenticationFilter.class);
 
         return http.build();
     }
