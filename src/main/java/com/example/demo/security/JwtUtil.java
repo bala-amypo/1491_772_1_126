@@ -8,26 +8,25 @@ import java.util.Date;
 
 public class JwtUtil {
 
-    private final String secretKey;
-    private final long expirationMillis;
+    private final String secretKey = "amyposupersecretkey";
+    private final long expirationMs = 3600000; // 1 hour
 
-    public JwtUtil(String secretKey, long expirationMillis) {
-        this.secretKey = secretKey;
-        this.expirationMillis = expirationMillis;
-    }
+    public String generateToken(Long id, String email, String role) {
 
-    public String generateToken(Long customerId, String email, String role) {
         return Jwts.builder()
-                .claim("customerId", customerId)
+                .claim("id", id)
                 .claim("email", email)
                 .claim("role", role)
                 .setIssuedAt(new Date())
-                .setExpiration(new Date(System.currentTimeMillis() + expirationMillis))
+                .setExpiration(
+                        new Date(System.currentTimeMillis() + expirationMs)
+                )
                 .signWith(SignatureAlgorithm.HS256, secretKey)
                 .compact();
     }
 
     public Claims validateToken(String token) {
+
         return Jwts.parser()
                 .setSigningKey(secretKey)
                 .parseClaimsJws(token)

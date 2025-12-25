@@ -30,6 +30,20 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                                     FilterChain filterChain)
             throws ServletException, IOException {
 
+        String path = request.getRequestURI();
+
+        // ✅ DO NOT APPLY JWT FOR AMYPO / ROOT
+        if (path.equals("/") ||
+            path.startsWith("/proxy") ||
+            path.startsWith("/swagger") ||
+            path.startsWith("/v3") ||
+            path.startsWith("/auth") ||
+            path.startsWith("/status")) {
+
+            filterChain.doFilter(request, response);
+            return;
+        }
+
         String authHeader = request.getHeader("Authorization");
 
         if (authHeader != null && authHeader.startsWith("Bearer ")) {

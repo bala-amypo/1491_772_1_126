@@ -7,17 +7,15 @@ import jakarta.servlet.http.HttpServletResponse;
 
 import java.io.IOException;
 
-@WebServlet(urlPatterns = "/status")
+@WebServlet("/status")
 public class SimpleStatusServlet extends HttpServlet {
 
     @Override
-    protected void doGet(HttpServletRequest request,
-                         HttpServletResponse response)
+    protected void doGet(HttpServletRequest req,
+                         HttpServletResponse resp)
             throws IOException {
 
-        response.setStatus(HttpServletResponse.SC_OK);
-        response.setContentType("text/plain");
-        response.getWriter()
-                .write("Customer Loyalty Tier Upgrader is running");
+        resp.setContentType("text/plain");
+        resp.getWriter().write("Application is running");
     }
 }

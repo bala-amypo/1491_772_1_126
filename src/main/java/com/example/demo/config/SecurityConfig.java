@@ -1,15 +1,10 @@
 package com.example.demo.config;
 
-import com.example.demo.security.JwtUtil;
-
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
 
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
@@ -20,54 +15,57 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 @EnableWebSecurity
 public class SecurityConfig {
 
-    @Bean
-    public JwtUtil jwtUtil() {
-        return new JwtUtil("mySecretKey123", 3600000);
+    private final JwtAuthenticationFilter jwtAuthenticationFilter;
+
+    public SecurityConfig(JwtAuthenticationFilter jwtAuthenticationFilter) {
+        this.jwtAuthenticationFilter = jwtAuthenticationFilter;
     }
 
     @Bean
-    public JwtAuthenticationFilter jwtAuthenticationFilter(JwtUtil jwtUtil) {
-        return new JwtAuthenticationFilter(jwtUtil);
-    }
-
-    @Bean
-    public PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
-    }
-
-    @Bean
-    public SecurityFilterChain securityFilterChain(
-            HttpSecurity http,
-            JwtAuthenticationFilter jwtFilter) throws Exception {
+    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 
         http
-            // ❌ Disable CSRF (REST API)
+            // REST → disable CSRF
             .csrf(csrf -> csrf.disable())
 
-            // ✅ VERY IMPORTANT: ALLOW AMYPO PROXY / IFRAME
-            .headers(headers -> headers
-                .frameOptions(frame -> frame.disable())
-            )
+            // ✅ REQUIRED FOR AMYPO (iframe / proxy)
+            .headers(headers -> headers.frameOptions(frame -> frame.disable()))
 
-            // ❌ No HTTP session (JWT based)
+            // JWT → stateless
             .sessionManagement(session ->
                 session.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
             )
 
-            // 🔓 Public endpoints
+            // ✅ ACCESS RULES (THIS FIXES 403)
             .authorizeHttpRequests(auth -> auth
+                // AmyPo + Root
                 .requestMatchers(
-                    "/auth/**",
+                    "/",
+                    "/index.html",
+                    "/error",
+                    "/status",
+                    "/proxy/**",
+
+                    // Swagger
                     "/swagger-ui/**",
                     "/v3/api-docs/**",
-                    "/status"
+
+                    // Auth APIs
+                    "/auth/**"
                 ).permitAll()
-                .anyRequest().authenticated()
+
+                // 🔒 Secure APIs
+                .requestMatchers("/api/**").authenticated()
+
+                // Everything else allowed
+                .anyRequest().permitAll()
             )
 
-            // 🔐 JWT filter
-            .addFilterBefore(jwtFilter,
-                UsernamePasswordAuthenticationFilter.class);
+            // JWT filter
+            .addFilterBefore(
+                jwtAuthenticationFilter,
+                UsernamePasswordAuthenticationFilter.class
+            );
 
         return http.build();
     }
