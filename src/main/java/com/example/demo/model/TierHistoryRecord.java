@@ -25,7 +25,6 @@ public class TierHistoryRecord {
     private String reason;
     private LocalDateTime changedAt;
 
-    // ✅ required by JPA
     public TierHistoryRecord() {}
 
     public TierHistoryRecord(Long customerId,
@@ -40,7 +39,6 @@ public class TierHistoryRecord {
         this.changedAt = changedAt;
     }
 
-    // ===== getters =====
     public Long getId() { return id; }
     public Long getCustomerId() { return customerId; }
     public String getOldTier() { return oldTier; }
@@ -48,7 +46,6 @@ public class TierHistoryRecord {
     public String getReason() { return reason; }
     public LocalDateTime getChangedAt() { return changedAt; }
 
-    // ===== setters =====
     public void setId(Long id) { this.id = id; }
     public void setCustomerId(Long customerId) { this.customerId = customerId; }
     public void setOldTier(String oldTier) { this.oldTier = oldTier; }

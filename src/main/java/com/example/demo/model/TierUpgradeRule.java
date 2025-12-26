@@ -25,10 +25,8 @@ public class TierUpgradeRule {
     private Integer minVisits;
     private Boolean active;
 
-    // ✅ REQUIRED by JPA
     public TierUpgradeRule() {}
 
-    // ===== setters (USED BY TEST) =====
     public void setId(Long id) { this.id = id; }
     public void setFromTier(String fromTier) { this.fromTier = fromTier; }
     public void setToTier(String toTier) { this.toTier = toTier; }
@@ -36,7 +34,6 @@ public class TierUpgradeRule {
     public void setMinVisits(Integer minVisits) { this.minVisits = minVisits; }
     public void setActive(Boolean active) { this.active = active; }
 
-    // ===== getters =====
     public Long getId() { return id; }
     public String getFromTier() { return fromTier; }
     public String getToTier() { return toTier; }

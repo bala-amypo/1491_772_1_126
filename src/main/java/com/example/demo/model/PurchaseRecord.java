@@ -19,7 +19,6 @@ public class PurchaseRecord {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    // FK column (used by tests + DB)
     @Column(name = "customer_id")
     private Long customerId;
 
@@ -27,21 +26,17 @@ public class PurchaseRecord {
     private LocalDate purchaseDate;
     private String storeLocation;
 
-    // ✅ JPA requires no-arg constructor
     public PurchaseRecord() {}
 
-    // ===== setters (USED BY TEST) =====
     public void setId(Long id) { this.id = id; }
     public void setAmount(Double amount) { this.amount = amount; }
     public void setPurchaseDate(LocalDate purchaseDate) { this.purchaseDate = purchaseDate; }
     public void setStoreLocation(String storeLocation) { this.storeLocation = storeLocation; }
 
-    // keeps your existing test logic
     public void setCustomer(CustomerProfile customer) {
         this.customerId = customer.getId();
     }
 
-    // ===== getters =====
     public Long getId() { return id; }
     public Long getCustomerId() { return customerId; }
     public Double getAmount() { return amount; }

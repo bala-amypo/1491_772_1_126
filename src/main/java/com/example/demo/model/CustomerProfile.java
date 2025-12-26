@@ -27,10 +27,8 @@ public class CustomerProfile {
     private boolean active;
     private LocalDateTime createdAt;
 
-    // ✅ REQUIRED by JPA
     public CustomerProfile() {}
 
-    // ===== getters =====
     public Long getId() { return id; }
     public String getCustomerId() { return customerId; }
     public String getFullName() { return fullName; }
@@ -40,7 +38,6 @@ public class CustomerProfile {
     public boolean isActive() { return active; }
     public LocalDateTime getCreatedAt() { return createdAt; }
 
-    // ===== setters =====
     public void setId(Long id) { this.id = id; }
     public void setCustomerId(String customerId) { this.customerId = customerId; }
     public void setFullName(String fullName) { this.fullName = fullName; }
