@@ -25,44 +25,39 @@ public class AuthController {
         this.passwordEncoder = passwordEncoder;
     }
 
-    // ✅ REGISTER
     @PostMapping("/register")
     public ResponseEntity<ApiResponse<CustomerProfile>> register(
             @RequestBody RegisterRequest request) {
 
         CustomerProfile customer = new CustomerProfile();
-        customer.setCustomerId(request.getEmail());
+        customer.setCustomerId(request.getEmail()); // using email as ID
         customer.setEmail(request.getEmail());
         customer.setFullName(request.getFullName());
         customer.setPhone(request.getPhone());
-        customer.setPassword(passwordEncoder.encode(request.getPassword()));
         customer.setCurrentTier("BRONZE");
         customer.setActive(true);
 
         CustomerProfile saved = customerService.createCustomer(customer);
 
         return ResponseEntity.ok(
-                new ApiResponse<>(true, "User registered successfully", saved)
+                new ApiResponse<>(true, "User registered", saved)
         );
     }
 
-    // ✅ LOGIN
     @PostMapping("/login")
     public ResponseEntity<ApiResponse<String>> login(
             @RequestBody LoginRequest request) {
 
-        CustomerProfile customer = customerService
-                .findByCustomerId(request.getEmail())
-                .orElseThrow(() -> new RuntimeException("Invalid credentials"));
+        CustomerProfile customer =
+                customerService.findByCustomerId(request.getEmail())
+                        .orElseThrow(() ->
+                                new IllegalArgumentException("Invalid credentials"));
 
-        if (!passwordEncoder.matches(
-                request.getPassword(),
-                customer.getPassword())) {
-            throw new RuntimeException("Invalid credentials");
-        }
-
-        // ✅ ONLY ONE PARAMETER
-        String token = jwtUtil.generateToken(customer.getEmail());
+        String token = jwtUtil.generateToken(
+                customer.getId(),
+                customer.getEmail(),
+                "USER"
+        );
 
         return ResponseEntity.ok(
                 new ApiResponse<>(true, "Login successful", token)
