@@ -25,7 +25,6 @@ public class AuthController {
         this.passwordEncoder = passwordEncoder;
     }
 
-    // ✅ REGISTER
     @PostMapping("/register")
     public ResponseEntity<ApiResponse<CustomerProfile>> register(
             @RequestBody RegisterRequest request) {
@@ -45,7 +44,6 @@ public class AuthController {
         );
     }
 
-    // ✅ LOGIN
     @PostMapping("/login")
     public ResponseEntity<ApiResponse<String>> login(
             @RequestBody LoginRequest request) {

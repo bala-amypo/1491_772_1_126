@@ -32,7 +32,6 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
         String path = request.getRequestURI();
 
-        // ✅ IGNORE AMYPO & PUBLIC PATHS
         if (path.equals("/") ||
             path.startsWith("/proxy") ||
             path.startsWith("/swagger") ||

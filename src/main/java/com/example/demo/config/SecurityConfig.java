@@ -17,19 +17,16 @@ import org.springframework.security.web.SecurityFilterChain;
 @EnableWebSecurity
 public class SecurityConfig {
 
-    // 🔑 Required for AuthController
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
 
-    // 🔑 Required for JwtAuthenticationFilter constructor
     @Bean
     public JwtUtil jwtUtil() {
         return new JwtUtil();
     }
 
-    // 🛑 SECURITY DISABLED (ACCESS GUARANTEED)
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http)
             throws Exception {
@@ -37,10 +34,8 @@ public class SecurityConfig {
         http
             .csrf(csrf -> csrf.disable())
 
-            // ✅ Allow iframe / AmyPo proxy
             .headers(headers -> headers.frameOptions(frame -> frame.disable()))
 
-            // ✅ ALLOW EVERYTHING (NO 403)
             .authorizeHttpRequests(auth -> auth
                 .anyRequest().permitAll()
             );

@@ -27,7 +27,7 @@ public class CustomUserDetailsService implements UserDetailsService {
                         new UsernameNotFoundException("User not found"));
 
         return User.withUsername(customer.getEmail())
-                .password("N/A") // password validated in AuthController
+                .password("N/A") 
                 .authorities(List.of(new SimpleGrantedAuthority("ROLE_USER")))
                 .build();
     }
