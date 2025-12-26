@@ -10,7 +10,6 @@ import java.util.Date;
 @Component
 public class JwtUtil {
 
-    // ✅ MUST be minimum 32 characters
     private static final String SECRET =
             "my-super-secure-jwt-secret-key-256-bit-long";
 
@@ -18,16 +17,16 @@ public class JwtUtil {
 
     private final Key key = Keys.hmacShaKeyFor(SECRET.getBytes());
 
-    public String generateToken(String username) {
+    public String generateToken(String email) {
         return Jwts.builder()
-                .setSubject(username)
+                .setSubject(email)
                 .setIssuedAt(new Date())
                 .setExpiration(new Date(System.currentTimeMillis() + EXPIRATION_TIME))
                 .signWith(key, SignatureAlgorithm.HS256)
                 .compact();
     }
 
-    public String extractUsername(String token) {
+    public String extractEmail(String token) {
         return getClaims(token).getSubject();
     }
 
