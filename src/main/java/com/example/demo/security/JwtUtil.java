@@ -10,10 +10,8 @@ import java.util.Date;
 
 public class JwtUtil {
 
-    // ❌ OLD (too small – keep it but don’t use)
     private final String secretKey = "amyposupersecretkey";
 
-    // ✅ NEW SAFE KEY (256-bit+)
     private static final String SECURE_SECRET =
             "THIS_IS_A_SUPER_SECURE_256_BIT_SECRET_KEY_FOR_JWT_TOKEN";
 
@@ -21,7 +19,6 @@ public class JwtUtil {
 
     private final long expirationMs = 3600000;
 
-    // ✅ FIXED TOKEN GENERATION
     public String generateToken(Long id, String email, String role) {
         return Jwts.builder()
                 .claim("id", id)
@@ -29,14 +26,13 @@ public class JwtUtil {
                 .claim("role", role)
                 .setIssuedAt(new Date())
                 .setExpiration(new Date(System.currentTimeMillis() + expirationMs))
-                .signWith(key, SignatureAlgorithm.HS256) // ✅ FIXED
+                .signWith(key, SignatureAlgorithm.HS256) 
                 .compact();
     }
 
-    // ✅ FIXED TOKEN VALIDATION
     public Claims validateToken(String token) {
         return Jwts.parserBuilder()
-                .setSigningKey(key) // ✅ FIXED
+                .setSigningKey(key) 
                 .build()
                 .parseClaimsJws(token)
                 .getBody();
